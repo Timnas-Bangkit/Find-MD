@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Header -->
+    <style name="Header_1">
+        <item name="android:fontFamily">@font/kanit_bold</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">32sp</item>
+    </style>
+
+    <style name="Header_2">
+        <item name="android:fontFamily">@font/kanit</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+
+    <!-- Sign In & Sign Up -->
+    <style name="Textview_1">
+        <item name="android:fontFamily">@font/opensans_light</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+
+    <!-- Content feeds -->
+    <!-- Profile & Time -->
+    <style name="Textview_2">
+        <item name="android:fontFamily">@font/opensans_semibold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="Textview_3">
+        <item name="android:fontFamily">@font/opensans</item>
+        <item name="android:textColor">@color/silver</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+    <!-- Title & Description -->
+    <!-- Menu chat -->
+    <style name="Textview_4">
+        <item name="android:fontFamily">@font/opensans_semibold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Textview_5">
+        <item name="android:fontFamily">@font/opensans</item>
+        <item name="android:textColor">@color/scorpion</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="Textview_6">
+        <item name="android:fontFamily">@font/kanit_thin</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+
+
+    <!-- Button -->
+    <style name="Button_1">
+        <item name="android:background">@drawable/rounded_button</item>
+        <item name="android:fontFamily">@font/kanit_bold</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Button_2">
+        <item name="android:background">@drawable/rounded_button</item>
+        <item name="android:fontFamily">@font/kanit_bold</item>
+        <item name="android:textColor">@color/minsk</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Button_3">
+        <item name="android:background">@drawable/rounded_button</item>
+        <item name="android:backgroundTint">@color/selago</item>
+        <item name="android:fontFamily">@font/kanit_bold</item>
+        <item name="android:textColor">@color/medium_purple</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="Button_4">
+        <item name="android:background">@drawable/rounded_button</item>
+        <item name="android:backgroundTint">@color/medium_purple</item>
+        <item name="android:fontFamily">@font/kanit_thin</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">8sp</item>
+    </style>
+
+    <style name="CustomTextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/white</item> <!-- Warna outline dalam semua kondisi -->
+        <item name="boxBackgroundColor">@android:color/transparent</item>
+        <item name="hintTextColor">@color/white</item>
+        <item name="android:textColorHint">@color/white</item> <!-- Warna hint -->
+    </style>
+</resources>

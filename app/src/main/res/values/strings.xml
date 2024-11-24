@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">FindUp</string>
+    <string name="title_home">Home</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="menu_upload">Upload Ide</string>
+    <string name="menu_chat">Chats</string>
+    <string name="menu_profile">Profile</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="title_signup_page">Sign Up</string>
+    <string name="name">Name</string>
+    <string name="daftar">Don`t have an account?</string>
+    <string name="signup">Sign Up</string>
+    <string name="title_login_page">Sign In</string>
+    <string name="login">Log In</string>
+    <string name="title_feeds">Feeds</string>
+    <string name="content_description_profile_image">Profile Image</string>
+    <string name="content_description_event_image">Event Image</string>
+    <string name="content_description_like_icon">Like Icon</string>
+    <string name="profile_name">Julian Krämer</string>
+    <string name="profile_time">20 minutes ago</string>
+    <string name="title_text">Title Idea</string>
+    <string name="description_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna…</string>
+    <string name="likes_text">12 Likes</string>
+    <string name="comments_text">4 Comments</string>
+    <string name="title_ide">Judul Ide</string>
+    <string name="title_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna…</string>
+    <string name="foundedByLabel">Founded by:</string>
+    <string name="founderName">Nama Founder</string>
+    <string name="founderRole">Role</string>
+    <string name="title_detail">Details:</string>
+    <string name="btn_join">Join as Team</string>
+    <string name="like_button">Like</string>
+    <string name="likeCount">0 Like</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_post">Posting Ide</string>
+</resources>

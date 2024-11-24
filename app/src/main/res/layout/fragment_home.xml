@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:padding="16dp"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".ui.home.HomeFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="16dp"
+        android:id="@+id/searchContainer">
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:queryHint="Search"
+            android:background="@drawable/bg_search"
+            android:iconifiedByDefault="false" />
+
+        <!-- Profile Icon -->
+        <ImageView
+            android:id="@+id/profileIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/ic_profile_24"
+            android:contentDescription="@string/content_description_profile_image"
+            android:background="@drawable/bg_circle"
+            android:clipToOutline="true"
+            android:scaleType="centerCrop"
+            tools:ignore="UnusedAttribute" />
+
+    </LinearLayout>
+
+    <!-- Title for Feeds -->
+    <TextView
+        android:id="@+id/titleFeeds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title_feeds"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/purple_700"
+        android:layout_below="@id/searchContainer"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Category Buttons -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:scrollbars="none"
+        android:layout_below="@id/titleFeeds"
+        android:id="@+id/categoryButtons">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- Category Button: All -->
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="All"
+                android:backgroundTint="@color/purple_500"
+                android:textColor="@android:color/white"
+                android:layout_marginEnd="8dp" />
+
+            <!-- Category Button: Music -->
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Music"
+                android:backgroundTint="@color/purple_200"
+                android:textColor="@android:color/black"
+                android:layout_marginEnd="8dp" />
+
+            <!-- Category Button: Tech -->
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tech"
+                android:backgroundTint="@color/purple_200"
+                android:textColor="@android:color/black"
+                android:layout_marginEnd="8dp" />
+
+            <!-- Category Button: Design -->
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Design"
+                android:backgroundTint="@color/purple_200"
+                android:textColor="@android:color/black" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- RecyclerView for Feeds -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:padding="8dp"
+        android:layout_below="@id/categoryButtons" />
+
+    <!-- Add Post Button -->
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/addPostButton"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_button"
+        android:backgroundTint="@color/purple_500"
+        android:src="@drawable/ic_add_24"
+        android:contentDescription="@string/add_post" />
+
+</RelativeLayout>
