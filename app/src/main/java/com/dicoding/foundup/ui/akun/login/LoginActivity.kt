@@ -9,26 +9,35 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.dicoding.foundup.data.UserRepository
+import com.dicoding.foundup.data.pref.UserPreference
+import com.dicoding.foundup.data.remote.ApiConfig
 import com.dicoding.foundup.databinding.ActivityLoginBinding
 import com.dicoding.foundup.di.Injection
 import com.dicoding.foundup.ui.LoginViewModelFactory
+import com.dicoding.foundup.ui.akun.register.RegisterActivity
 import com.dicoding.foundup.ui.main.MainActivity
 import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var userRepository: UserRepository
     private val loginViewModel: LoginViewModel by viewModels {
-        LoginViewModelFactory(Injection.provideRepository(this))
+        LoginViewModelFactory(userRepository)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportActionBar?.hide()
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        userRepository =
+            UserRepository.getInstance(ApiConfig.getApiService(), UserPreference.getInstance(this))
+
         lifecycleScope.launch {
-            val isLoggedIn = loginViewModel.isUserLoggedIn()
+            val isLoggedIn = userRepository.isUserLoggedIn()
             if (isLoggedIn) {
                 navigateToMainActivity()
             }
@@ -37,11 +46,41 @@ class LoginActivity : AppCompatActivity() {
         showLoading(false)
         setLoginButtonEnabled()
 
-        binding.emailEditText.addTextChangedListener(signInTextWatcher)
+        binding.emailEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val email = s.toString()
+                val isEmailValid = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+
+                if (!isEmailValid) {
+                    binding.emailEditTextLayout.error = "Invalid email format"
+                } else {
+                    binding.emailEditTextLayout.error = null
+                }
+
+                setLoginButtonEnabled()
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
         binding.passwordEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s != null && s.length >= 8) setLoginButtonEnabled() else binding.loginButton.isEnabled = false
+                val password = s.toString()
+
+                // Validasi panjang password dan apakah mengandung angka
+                val isPasswordValid = password.length >= 8 && password.any { it.isDigit() }
+
+                if (!isPasswordValid) {
+                    binding.passwordEditTextLayout.error = "Password must be at least 8 characters and contain a number"
+                } else {
+                    binding.passwordEditTextLayout.error = null
+                }
+
+                setLoginButtonEnabled()
             }
 
             override fun afterTextChanged(s: Editable?) {}
@@ -56,12 +95,12 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        loginViewModel.loginResult.observe(this) { response ->
+        loginViewModel.data.observe(this) { response ->
             showLoading(false)
-            if (response?.email != null && response.password != null) {
+            if (!response.error!!) {
                 lifecycleScope.launch {
-                    loginViewModel.saveUserToken(response.password)
-                    loginViewModel.setStatusLogin(true)
+                    userRepository.saveUserToken(response.data?.token ?: "")
+                    userRepository.setStatusLogin(true)
                 }
                 navigateToMainActivity()
             } else {
@@ -69,15 +108,15 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        loginViewModel.errorMessage.observe(this) { message ->
-            message?.let {
-                Toast.makeText(this@LoginActivity, it, Toast.LENGTH_LONG).show()
-            }
-        }
-
         loginViewModel.isLoading.observe(this) { isLoading ->
             showLoading(isLoading)
         }
+
+        binding.tvSignUpLink.setOnClickListener {
+            val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     private fun setLoginButtonEnabled() {
@@ -93,14 +132,5 @@ class LoginActivity : AppCompatActivity() {
     private fun navigateToMainActivity() {
         startActivity(Intent(this@LoginActivity, MainActivity::class.java))
         finishAffinity()
-    }
-
-    private val signInTextWatcher = object : TextWatcher {
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            setLoginButtonEnabled()
-        }
-
-        override fun afterTextChanged(s: Editable?) {}
     }
 }

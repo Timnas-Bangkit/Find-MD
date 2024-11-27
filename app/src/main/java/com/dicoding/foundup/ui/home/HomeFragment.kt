@@ -1,5 +1,6 @@
 package com.dicoding.foundup.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import com.dicoding.foundup.adapter.PostAdapter
 import com.dicoding.foundup.databinding.FragmentHomeBinding
 import com.dicoding.foundup.di.Injection
 import com.dicoding.foundup.ui.HomeViewModelFactory
+import com.dicoding.foundup.ui.uploadIde.UploadIdeActivity
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
@@ -37,12 +39,10 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
-
-
+        setupPostButton() // Tambahkan ini
         homeViewModel.userData.observe(viewLifecycleOwner) { userData ->
             postAdapter.setData(userData)
         }
-
         observeUserToken()
     }
 
@@ -50,6 +50,14 @@ class HomeFragment : Fragment() {
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = postAdapter
+        }
+    }
+
+    private fun setupPostButton() {
+        // Tambahkan listener untuk postButton
+        binding.postButton.setOnClickListener {
+            val intent = Intent(requireContext(), UploadIdeActivity::class.java)
+            startActivity(intent)
         }
     }
 

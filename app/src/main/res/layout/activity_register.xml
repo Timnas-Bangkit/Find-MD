@@ -64,7 +64,7 @@
             android:id="@+id/nameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Username/Username"
+            android:hint="Username"
             android:textColor="@color/white"
             android:textColorHint="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -91,7 +91,7 @@
             android:id="@+id/emailEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Username/Email Address"
+            android:hint="Email Address"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:inputType="textEmailAddress" />

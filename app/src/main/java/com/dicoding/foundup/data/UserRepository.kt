@@ -17,28 +17,31 @@ class UserRepository(
     private val _user = MutableLiveData<List<DataItem>>()
     val user: LiveData<List<DataItem>> = _user
 
-    suspend fun registerUser(username: String, email: String, password: String): RegisterResponse? {
+    suspend fun registerUser(name: String, email: String, password: String): RegisterResponse {
         return try {
-            val response = apiService.registerUser(username, email, password)
+            val response = apiService.registerUser(name, email, password)
             response
+        } catch (e: retrofit2.HttpException) {
+            // Tangani error berdasarkan status kode HTTP
+            when (e.code()) {
+                400 -> RegisterResponse(error = true, message = "Invalid input. Please check your data.")
+                409 -> RegisterResponse(error = true, message = "Email already exists.")
+                500 -> RegisterResponse(error = true, message = "Server error. Please try again later.")
+                else -> RegisterResponse(error = true, message = "Unexpected error: ${e.message()}")
+            }
         } catch (e: Exception) {
-            RegisterResponse(
-                password = null,
-                email = null,
-                username = null
-            )
+            // Tangani error umum
+            RegisterResponse(error = true, message = "An unexpected error occurred: ${e.message}")
         }
     }
 
-    suspend fun loginUser(email: String, password: String): LoginResponse? {
+
+    suspend fun loginUser(email: String, password: String): LoginResponse {
         return try {
             val response = apiService.loginUser(email, password)
             response
         } catch (e: Exception) {
-            LoginResponse(
-                password = null,
-                email = null
-            )
+            LoginResponse(error = true, message = e.message)
         }
     }
 

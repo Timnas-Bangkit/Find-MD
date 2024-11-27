@@ -23,10 +23,7 @@
         android:theme="@style/Theme.FoundUp"
         tools:targetApi="31">
         <activity
-            android:name=".ui.uploadIde.UploadIdeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.akun.welcome.WelcomeActivity"
+            android:name=".ui.akun.splashscreen.SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,6 +31,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.uploadIde.UploadIdeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.akun.welcome.WelcomeActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.ideDetail.IdeDetailActivity"
             android:exported="false" />

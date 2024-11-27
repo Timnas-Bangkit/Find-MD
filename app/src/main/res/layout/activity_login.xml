@@ -25,13 +25,13 @@
         android:layout_height="wrap_content"
         style="@style/Header_1"
         android:layout_marginTop="32dp"
-        android:text="@string/login"
+        android:text="@string/title_login_page"
         app:layout_constraintTop_toBottomOf="@id/logoImageView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/emailTextInputLayout"
+        android:id="@+id/emailEditTextLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -51,7 +51,7 @@
             android:id="@+id/emailEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Username/Email Address"
+            android:hint="Email Address"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:inputType="textEmailAddress" />
@@ -59,7 +59,7 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/passwordTextInputLayout"
+        android:id="@+id/passwordEditTextLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -74,7 +74,7 @@
         app:startIconDrawable="@drawable/ic_baseline_lock_24"
         app:endIconMode="password_toggle"
         app:endIconTint="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/emailTextInputLayout"
+        app:layout_constraintTop_toBottomOf="@id/emailEditTextLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -101,7 +101,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/passwordTextInputLayout" />
+        app:layout_constraintTop_toBottomOf="@id/passwordEditTextLayout" />
 
     <!-- Teks Sign Up -->
     <TextView

@@ -94,9 +94,16 @@
     </style>
 
     <style name="CustomTextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="boxStrokeColor">@color/white</item> <!-- Warna outline dalam semua kondisi -->
+        <item name="boxStrokeColor">@color/black</item> <!-- Warna outline dalam semua kondisi -->
         <item name="boxBackgroundColor">@android:color/transparent</item>
-        <item name="hintTextColor">@color/white</item>
-        <item name="android:textColorHint">@color/white</item> <!-- Warna hint -->
+        <item name="hintTextColor">@color/black</item>
+        <item name="android:textColorHint">@color/black</item> <!-- Warna hint -->
+    </style>
+
+    <style name="CustomTextInputStyle1" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/black</item> <!-- Warna outline dalam semua kondisi -->
+        <item name="boxBackgroundColor">@android:color/transparent</item>
+        <item name="hintTextColor">@color/black</item>
+        <item name="android:textColorHint">@color/black</item> <!-- Warna hint -->
     </style>
 </resources>

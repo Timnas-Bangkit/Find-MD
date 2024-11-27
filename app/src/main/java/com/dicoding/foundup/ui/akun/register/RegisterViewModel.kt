@@ -1,17 +1,33 @@
 package com.dicoding.foundup.ui.akun.register
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import com.dicoding.foundup.data.UserRepository
+import com.dicoding.foundup.data.pref.UserPreference
+import com.dicoding.foundup.data.remote.ApiConfig
 import com.dicoding.foundup.data.response.RegisterResponse
+import kotlinx.coroutines.launch
 
-class RegisterViewModel(private val userRepository: UserRepository) : ViewModel() {
+class RegisterViewModel(application: Application) : AndroidViewModel(application) {
+    private val userRepository: UserRepository = UserRepository.getInstance(
+        ApiConfig.getApiService(), UserPreference.getInstance(application)
+    )
 
-    suspend fun registerUser(name: String, email: String, password: String): RegisterResponse? {
-        return try {
-            userRepository.registerUser(name, email, password)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
+    fun registerUser(
+        name: String,
+        email: String,
+        password: String,
+        onResult: (RegisterResponse) -> Unit
+    ) {
+        viewModelScope.launch {
+            try {
+                val response = userRepository.registerUser(name, email, password)
+                onResult(response)
+            } catch (e: Exception) {
+                e.printStackTrace()
+
+            }
         }
     }
 }

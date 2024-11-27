@@ -11,6 +11,7 @@ import retrofit2.http.POST
 
 interface ApiService {
 
+    // //fungsi untuk mengirimkan data saat register
     @POST("api/users/register")
     @FormUrlEncoded
     suspend fun registerUser(
@@ -19,6 +20,7 @@ interface ApiService {
         @Field("password") password: String
     ): RegisterResponse
 
+    // fungsi untuk mengirimkan data saat login
     @POST("api/users/login")
     @FormUrlEncoded
     suspend fun loginUser(

@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.dicoding.foundup.databinding.ActivityRegisterBinding
 import com.dicoding.foundup.di.Injection
@@ -21,8 +22,11 @@ class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
 
-    private val registerViewModel: RegisterViewModel by viewModels {
-        RegisterViewModelFactory(Injection.provideRepository(this))
+
+    private val registerViewModel: RegisterViewModel by lazy {
+        ViewModelProvider(
+            this, RegisterViewModelFactory(application)
+        ).get(RegisterViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,32 +37,60 @@ class RegisterActivity : AppCompatActivity() {
         showLoading(false)
         setSignupButtonEnabled()
 
-        binding.emailEditText.addTextChangedListener(signUpTextWatcher)
         binding.nameEditText.addTextChangedListener(signUpTextWatcher)
-        binding.passwordEditText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+        binding.emailEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val email = s.toString()
+                val isEmailValid = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+
+                if (!isEmailValid) {
+                    binding.emailEditTextLayout.error = "Invalid email format"
+                } else {
+                    binding.emailEditTextLayout.error = null
+                }
+
                 setSignupButtonEnabled()
             }
 
-            override fun afterTextChanged(s: Editable) {}
+            override fun afterTextChanged(s: Editable?) {}
         })
+
+        binding.passwordEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val password = s.toString()
+
+                // Validasi panjang password dan apakah mengandung angka
+                val isPasswordValid = password.length >= 8 && password.any { it.isDigit() }
+
+                if (!isPasswordValid) {
+                    binding.passwordEditTextLayout.error = "Password must be at least 8 characters and contain a number"
+                } else {
+                    binding.passwordEditTextLayout.error = null
+                }
+
+                setSignupButtonEnabled()
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
 
         binding.signupButton.setOnClickListener {
             lifecycleScope.launch {
-                val username = binding.nameEditText.text.toString()
+                val name = binding.nameEditText.text.toString()
                 val email = binding.emailEditText.text.toString()
                 val password = binding.passwordEditText.text.toString()
                 showLoading(true)
-
-                try {
-                    val response = registerViewModel.registerUser(username, email, password)
+                registerViewModel.registerUser(name, email, password) { response ->
                     showLoading(false)
-
-                    if (response != null && response.username != null && response.email != null) {
+                    if (!response.error!!) {
                         Toast.makeText(
                             this@RegisterActivity,
-                            "Account created for ${response.username}",
+                            "Account created: ${response.message}",
                             Toast.LENGTH_LONG
                         ).show()
                         startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
@@ -66,13 +98,10 @@ class RegisterActivity : AppCompatActivity() {
                     } else {
                         Toast.makeText(
                             this@RegisterActivity,
-                            "Registration failed. Please try again.",
+                            "Registration failed: ${response.message}",
                             Toast.LENGTH_LONG
                         ).show()
                     }
-                } catch (e: Exception) {
-                    showLoading(false)
-                    Toast.makeText(this@RegisterActivity, e.message ?: "Error occurred", Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -84,8 +113,15 @@ class RegisterActivity : AppCompatActivity() {
         val email = binding.emailEditText.text.toString()
         val password = binding.passwordEditText.text.toString()
         val name = binding.nameEditText.text.toString()
+
+        // Validasi format email
+        val isEmailValid = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+
+        // Validasi password (minimal 8 karakter dan mengandung angka)
+        val isPasswordValid = password.length >= 8 && password.any { it.isDigit() }
+
         binding.signupButton.isEnabled =
-            email.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty()
+            email.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty() && isEmailValid
     }
 
     private fun showLoading(state: Boolean) {
