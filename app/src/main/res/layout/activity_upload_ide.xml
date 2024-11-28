@@ -35,17 +35,29 @@
 
         <!-- Add Feeds Section -->
         <TextView
+            style="@style/Header_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
             android:text="@string/add_feeds"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:layout_marginTop="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:text="@string/add_image"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
         <!-- Images Preview -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
             android:orientation="horizontal"
             android:layout_marginTop="8dp">
 
@@ -62,6 +74,17 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/darth_vader"
                 android:layout_marginEnd="8dp" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/add_image"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/rounded_button"
+                android:backgroundTint="@color/medium_purple"
+                android:src="@drawable/ic_add_24"
+                android:layout_gravity="center"
+                android:contentDescription="@string/add_image" />
         </LinearLayout>
 
         <!-- Form Fields -->
@@ -137,13 +160,19 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/put_description"
                 android:textColor="@color/black"
-                android:textColorHint="@color/black" />
+                android:textColorHint="@color/black"
+                android:minLines="6"
+                android:maxLines="10"
+                android:gravity="top|start"
+                android:scrollbars="vertical"
+                android:background="@null" />
         </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
+
+        <Button
                 style="@style/Button_1"
                 android:id="@+id/nextButton"
-                android:layout_width="132dp"
+                android:layout_width="142dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginStart="216dp"
