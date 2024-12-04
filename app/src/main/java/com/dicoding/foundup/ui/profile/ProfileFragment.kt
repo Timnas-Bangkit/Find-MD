@@ -55,10 +55,10 @@ class ProfileFragment : Fragment() {
             .setMessage("Apakah Anda yakin ingin keluar?")
             .setPositiveButton("Ya") { dialog, _ ->
                 dialog.dismiss()
-                showLogoutDialog() // Fungsi untuk melakukan proses logout
+                showLogoutDialog()
             }
             .setNegativeButton("Tidak") { dialog, _ ->
-                dialog.dismiss() // Tutup dialog tanpa melakukan apa pun
+                dialog.dismiss()
             }
             .create()
 
@@ -66,16 +66,14 @@ class ProfileFragment : Fragment() {
     }
 
     private fun showLogoutDialog() {
-        // Jalankan proses logout di dalam Coroutine
         viewLifecycleOwner.lifecycleScope.launch {
-            userRepository.clearUserData() // Membersihkan data login pengguna
+            userRepository.clearUserData()
 
-            // Arahkan pengguna ke layar login
+
             val intent = Intent(requireContext(), LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
         }
     }
-
 
 }

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -17,6 +18,7 @@ import com.dicoding.foundup.di.Injection
 import com.dicoding.foundup.ui.LoginViewModelFactory
 import com.dicoding.foundup.ui.akun.register.RegisterActivity
 import com.dicoding.foundup.ui.main.MainActivity
+import com.dicoding.foundup.ui.role.RoleActivity
 import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
@@ -99,14 +101,35 @@ class LoginActivity : AppCompatActivity() {
             showLoading(false)
             if (!response.error!!) {
                 lifecycleScope.launch {
-                    userRepository.saveUserToken(response.data?.token ?: "")
+                    val token = response.data?.token ?: ""
+                    userRepository.saveUserToken(token)
                     userRepository.setStatusLogin(true)
+
+                    // Fetch user role and decide navigation
+                    loginViewModel.fetchUserRole(token)
                 }
-                navigateToMainActivity()
             } else {
                 Toast.makeText(this@LoginActivity, "Login Failed!", Toast.LENGTH_LONG).show()
             }
         }
+
+// Observe navigation events
+        loginViewModel.navigateToRoleActivity.observe(this) { navigate ->
+            Log.d("LoginActivity", "navigateToRoleActivity: $navigate")  // Debugging log
+            if (navigate) {
+                val intent = Intent(this@LoginActivity, RoleActivity::class.java)
+                startActivity(intent)
+                finishAffinity()  // Cek apakah finishAffinity() di sini tidak menghalangi navigasi
+            }
+        }
+
+        loginViewModel.navigateToMainActivity.observe(this) { navigate ->
+            Log.d("LoginActivity", "navigateToMainActivity: $navigate")  // Debugging log
+            if (navigate) {
+                navigateToMainActivity()
+            }
+        }
+
 
         loginViewModel.isLoading.observe(this) { isLoading ->
             showLoading(isLoading)
@@ -133,4 +156,10 @@ class LoginActivity : AppCompatActivity() {
         startActivity(Intent(this@LoginActivity, MainActivity::class.java))
         finishAffinity()
     }
+
+    private fun navigateToRoleActivity() {
+        startActivity(Intent(this@LoginActivity, RoleActivity::class.java))
+        finishAffinity()
+    }
+
 }

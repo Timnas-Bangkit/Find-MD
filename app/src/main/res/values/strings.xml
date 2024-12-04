@@ -6,6 +6,7 @@
     <string name="menu_upload">Upload Ide</string>
     <string name="menu_chat">Chats</string>
     <string name="menu_profile">Profile</string>
+    <string name="menu_profile_owner">Profile Owner</string>
 
     <string name="name">Name</string>
     <string name="email">Email</string>
@@ -39,6 +40,7 @@
     <string name="title_chat">Coming soon feature</string>
 
     <string name="draft">Draft</string>
+    <string name="post">Post</string>
     <string name="next">Next</string>
     <string name="post_idea">Post Idea</string>
     <string name="add_feeds">Add Feeds</string>
@@ -48,4 +50,30 @@
 
     <string name="uploadCV">Upload CV</string>
     <string name="logout">Log out</string>
+    <string name="put_detail_description">Add detailed description</string>
+    <string name="app_logo">App Logo</string>
+    <string name="choose_your_role">Choose Your Role...</string>
+    <string name="owner">OWNER</string>
+    <string name="tech_worker">TECH WORKER</string>
+    <string name="done">Done</string>
+    <string name="bio_profile">Hard Work, Creative, Innovative, Network and Connection, Focus on Results</string>
+    <string name="role">Role</string>
+    <string name="all_category">All</string>
+    <string name="finance_category">Finance</string>
+    <string name="education_category">Education</string>
+    <string name="e_commerce_category">E-commerce</string>
+    <string name="reject">Reject</string>
+    <string name="interview">Interview</string>
+    <string name="accept">Accept</string>
+    <string name="status">Status</string>
+    <string name="position">Position</string>
+    <string name="candidate_name">Candidate Name</string>
+    <string name="name_ide">Name Ide</string>
+    <string name="status_application">Status</string>
+    <string name="my_application">My Application</string>
+    <string name="owner_name">Owner Name</string>
+    <string name="company_description">Company Description</string>
+    <string name="list_candidate">Candidate</string>
+    <string name="linkedin">LinkedIn</string>
+    <string name="instagram">Instagram</string>
 </resources>

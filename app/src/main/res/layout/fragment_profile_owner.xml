@@ -5,15 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
     android:padding="16dp"
-    android:id="@+id/profileFragment"
-    tools:context=".ui.profile.ProfileFragment">
+    android:id="@+id/profileOwnerFragment"
+    tools:context=".ui.profileowner.ProfileOwnerFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Profile Section -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -22,7 +21,7 @@
             android:paddingBottom="16dp">
 
             <ImageView
-                android:id="@+id/profileImage"
+                android:id="@+id/ownerProfileImage"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 tools:src="@tools:sample/avatars"
@@ -31,37 +30,25 @@
                 android:background="@drawable/bg_circle" />
 
             <TextView
-                android:id="@+id/profileName"
+                android:id="@+id/ownerName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/profile_name"
+                android:text="@string/owner_name"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="@android:color/black"
                 android:layout_marginBottom="4dp" />
 
             <TextView
-                android:id="@+id/profileRole"
+                android:id="@+id/ownerCompany"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/role"
+                android:text="@string/company_description"
                 android:textSize="14sp"
-                android:background="@drawable/role_chip_background"
-                android:padding="8dp"
-                android:textColor="@android:color/white" />
-
-            <TextView
-                android:id="@+id/profileDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/bio_profile"
-                android:gravity="center"
-                android:paddingTop="8dp"
-                android:textColor="@android:color/black"
-                android:textSize="14sp" />
+                android:textColor="@android:color/black" />
         </LinearLayout>
 
-        <!-- Social Media Icons -->
+        <!-- Social Media Section -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -70,55 +57,25 @@
             android:layout_marginBottom="16dp">
 
             <ImageView
+                android:id="@+id/linkedinIcon"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:src="@drawable/ic_linkedin"
-                android:layout_marginHorizontal="8dp" />
+                android:layout_marginHorizontal="8dp"
+                android:contentDescription="@string/linkedin" />
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/ic_github"
-                android:layout_marginHorizontal="8dp" />
-
-            <ImageView
+                android:id="@+id/instagramIcon"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:src="@drawable/ic_instagram"
-                android:layout_marginHorizontal="8dp" />
+                android:layout_marginHorizontal="8dp"
+                android:contentDescription="@string/instagram" />
         </LinearLayout>
 
-        <!-- Upload CV -->
+        <!-- List Candidate -->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:paddingVertical="16dp"
-            android:background="@drawable/menu_background"
-            android:elevation="4dp"
-            android:layout_marginBottom="16dp"
-            android:paddingHorizontal="24dp">
-
-            <ImageView
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:src="@drawable/ic_upload_cv"
-                android:layout_marginEnd="12dp" />
-
-            <TextView
-                android:id="@+id/uploadCVText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/uploadCV"
-                android:textColor="@android:color/black"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <!-- My Application -->
-        <LinearLayout
-            android:id="@+id/myApplicationButton"
+            android:id="@+id/listCandidateButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -136,15 +93,14 @@
                 android:layout_marginEnd="12dp" />
 
             <TextView
-                android:id="@+id/myApplicationText"
+                android:id="@+id/listCandidateText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/my_application"
+                android:text="@string/list_candidate"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
         </LinearLayout>
-
 
         <!-- Logout -->
         <LinearLayout

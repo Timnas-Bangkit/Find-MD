@@ -27,6 +27,7 @@ class HomeViewModel(private val userRepository: UserRepository) : ViewModel() {
         _loading.value = true
         viewModelScope.launch {
             try {
+                val token = getUserToken() ?: throw IllegalStateException("Token is null or empty")
                 val data = userRepository.fetchUser()
                 _userData.value = data
                 _loading.value = false
@@ -36,4 +37,14 @@ class HomeViewModel(private val userRepository: UserRepository) : ViewModel() {
             }
         }
     }
+
+    suspend fun getUserRole(token: String): String? {
+        return try {
+            val roleResponse = userRepository.getUserRole(token)
+            roleResponse?.data?.role // Mengembalikan role, bisa null jika belum dipilih
+        } catch (e: Exception) {
+            null // Jika terjadi kesalahan, anggap role belum dipilih
+        }
+    }
+
 }

@@ -62,21 +62,15 @@
             android:layout_marginTop="8dp">
 
             <ImageView
+                android:id="@+id/imgView"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/storm_trooper"
                 android:layout_marginEnd="8dp" />
 
-            <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/darth_vader"
-                android:layout_marginEnd="8dp" />
-
             <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/add_image"
+                android:id="@+id/addImage"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_marginStart="16dp"
@@ -99,10 +93,7 @@
             app:boxStrokeColor="@color/black"
             app:boxBackgroundMode="outline"
             app:boxStrokeWidth="1dp"
-            app:hintTextColor="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titleTextView">
+            app:hintTextColor="@color/black">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/titleIdeaEditText"
@@ -124,10 +115,7 @@
             app:boxStrokeColor="@color/black"
             app:boxBackgroundMode="outline"
             app:boxStrokeWidth="1dp"
-            app:hintTextColor="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titleTextView">
+            app:hintTextColor="@color/black">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/taglineIdeaEditText"
@@ -149,16 +137,41 @@
             app:boxStrokeColor="@color/black"
             app:boxBackgroundMode="outline"
             app:boxStrokeWidth="1dp"
-            app:hintTextColor="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titleTextView">
+            app:hintTextColor="@color/black">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/descriptionIdeaEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@null"
+                android:gravity="top|start"
                 android:hint="@string/put_description"
+                android:maxLines="10"
+                android:minLines="6"
+                android:scrollbars="vertical"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Detailed Description Field -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/detailDescriptionEditTextLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginTop="16dp"
+            style="@style/CustomTextInputStyle1"
+            app:boxStrokeColor="@color/black"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeWidth="1dp"
+            app:hintTextColor="@color/black">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/detailDescriptionEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/put_detail_description"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
                 android:minLines="6"
@@ -168,17 +181,16 @@
                 android:background="@null" />
         </com.google.android.material.textfield.TextInputLayout>
 
-
         <Button
-                style="@style/Button_1"
-                android:id="@+id/nextButton"
-                android:layout_width="142dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="216dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:text="@string/next"
-                android:textSize="16sp"
-                android:backgroundTint="@color/medium_purple" />
+            style="@style/Button_1"
+            android:id="@+id/uploadButton"
+            android:layout_width="142dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="216dp"
+            android:text="@string/post"
+            android:textSize="16sp"
+            android:backgroundTint="@color/medium_purple" />
+
     </LinearLayout>
 </ScrollView>

@@ -1,12 +1,16 @@
 package com.dicoding.foundup.data
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.dicoding.foundup.data.pref.UserPreference
 import com.dicoding.foundup.data.remote.ApiService
 import com.dicoding.foundup.data.response.DataItem
+import com.dicoding.foundup.data.response.DataRole
 import com.dicoding.foundup.data.response.LoginResponse
+import com.dicoding.foundup.data.response.ProfileResponse
 import com.dicoding.foundup.data.response.RegisterResponse
+import com.dicoding.foundup.data.response.RoleResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 
@@ -83,6 +87,35 @@ class UserRepository(
 
     suspend fun setStatusLogin(isLoggedIn: Boolean) {
         userPreference.setStatusLogin(isLoggedIn)
+    }
+
+    suspend fun getUserRole(token: String): ProfileResponse? {
+        return try {
+            val response = apiService.getRole("Bearer $token")
+            if (response != null && response.error == false) {
+                response
+            } else {
+                Log.e("UserRepository", "Error: Role response contains error or is null")
+                null
+            }
+        } catch (e: retrofit2.HttpException) {
+            val errorMessage = "HTTP Error: ${e.code()} ${e.message()}"
+            Log.e("UserRepository", errorMessage)
+            null
+        } catch (e: Exception) {
+            Log.e("UserRepository", "Error fetching role: ${e.message}", e)
+            null
+        }
+    }
+
+
+    suspend fun setUserRole(token: String, role: String): RoleResponse? {
+        return try {
+            val dataRole = DataRole(role = role)
+            apiService.roleUser("Bearer $token", dataRole)
+        } catch (e: Exception) {
+            null // Kembalikan null jika terjadi error
+        }
     }
 
 
