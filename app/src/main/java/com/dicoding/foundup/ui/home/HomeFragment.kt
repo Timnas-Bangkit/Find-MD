@@ -72,7 +72,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupPostButton() {
-        binding.postButton.visibility = View.VISIBLE // Tampilkan tombol jika role adalah "owner"
+        binding.postButton.visibility = View.VISIBLE
         binding.postButton.setOnClickListener {
             val intent = Intent(requireContext(), UploadIdeActivity::class.java)
             startActivity(intent)
@@ -95,14 +95,17 @@ class HomeFragment : Fragment() {
                 val token = homeViewModel.getUserToken()
                 if (!token.isNullOrEmpty()) {
                     val role = homeViewModel.getUserRole(token)
-                    if (role == "user") {
-                        // Role adalah "owner" atau "techWorker", lanjutkan untuk fetch user data
-                        navigateToRoleActivity()
+                    if (role == "owner") {
+                        // Role adalah "owner", tampilkan tombol post
+                        setupPostButton()
+                    } else if (role == "techWorker") {
+                        // Role adalah "techWorker", sembunyikan tombol post
+                        binding.postButton.visibility = View.GONE
                     } else {
                         // Role selain itu (atau null), navigasikan ke RoleActivity
-                        homeViewModel.fetchUserData()
-                        setupPostButton()
+                        navigateToRoleActivity()
                     }
+                    homeViewModel.fetchUserData()
                 } else {
                     Toast.makeText(requireContext(), "Token tidak ditemukan", Toast.LENGTH_SHORT).show()
                 }
@@ -111,6 +114,7 @@ class HomeFragment : Fragment() {
             }
         }
     }
+
 
     private fun navigateToRoleActivity() {
         val intent = Intent(requireContext(), RoleActivity::class.java)

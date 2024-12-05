@@ -4,21 +4,14 @@ import android.Manifest
 import android.content.Intent
 import android.content.Intent.ACTION_GET_CONTENT
 import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
-import com.dicoding.foundup.R
 import com.dicoding.foundup.data.UserRepository
 import com.dicoding.foundup.data.pref.UserPreference
 import com.dicoding.foundup.data.remote.ApiConfig
@@ -69,7 +62,6 @@ class UploadIdeActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
         }
 
-
         binding.addImage.setOnClickListener {
             openGallery()
         }
@@ -99,27 +91,41 @@ class UploadIdeActivity : AppCompatActivity() {
         launcherIntentGallery.launch(chooser)
     }
 
-
     private fun addStory() {
         if (getFile != null) {
             val file = reduceFileImage(getFile as File)
             val requestImageFile = file.asRequestBody("image/jpeg".toMediaType())
-            val imageMultipart = MultipartBody.Part.createFormData("file", file.name, requestImageFile)
+            val imageMultipart =
+                MultipartBody.Part.createFormData("file", file.name, requestImageFile)
 
             val titleText = binding.titleIdeaEditText.text?.trim().toString()
             val descriptionText = binding.descriptionIdeaEditText.text?.trim().toString()
             val detailText = binding.detailDescriptionEditText.text?.trim().toString()
+            val summaryText = binding.summaryEditText.text?.trim().toString()
+            val neededRole1Text = binding.neededRole1EditText.text?.trim().toString()
+            val neededRole2Text = binding.neededRole2EditText.text?.trim().toString()
 
-            if (titleText.isEmpty() || descriptionText.isEmpty() || detailText.isEmpty()) {
-                Toast.makeText(this, "Title, description, and detail cannot be empty!", Toast.LENGTH_SHORT).show()
+            if (titleText.isEmpty() || descriptionText.isEmpty() || detailText.isEmpty() || summaryText.isEmpty() || neededRole1Text.isEmpty() || neededRole2Text.isEmpty()) {
+                Toast.makeText(this, "All fields must be filled!", Toast.LENGTH_SHORT).show()
                 return
             }
 
             val titleRequestBody = titleText.toRequestBody("text/plain".toMediaType())
             val descriptionRequestBody = descriptionText.toRequestBody("text/plain".toMediaType())
             val detailRequestBody = detailText.toRequestBody("text/plain".toMediaType())
+            val summaryRequestBody = summaryText.toRequestBody("text/plain".toMediaType())
+            val neededRole1RequestBody = neededRole1Text.toRequestBody("text/plain".toMediaType())
+            val neededRole2RequestBody = neededRole2Text.toRequestBody("text/plain".toMediaType())
 
-            uploadImageToServer(imageMultipart, titleRequestBody, descriptionRequestBody, detailRequestBody)
+            uploadImageToServer(
+                imageMultipart,
+                titleRequestBody,
+                descriptionRequestBody,
+                summaryRequestBody,
+                detailRequestBody,
+                neededRole1RequestBody,
+                neededRole2RequestBody
+            )
         } else {
             Toast.makeText(this, "Insert an image before uploading!", Toast.LENGTH_SHORT).show()
         }
@@ -129,16 +135,21 @@ class UploadIdeActivity : AppCompatActivity() {
         file: MultipartBody.Part,
         title: RequestBody,
         description: RequestBody,
-        detail: RequestBody
+        summary: RequestBody,
+        detail: RequestBody,
+        neededRole1: RequestBody,
+        neededRole2: RequestBody
     ) {
         lifecycleScope.launch {
             try {
                 val token = "Bearer ${userRepository.getUserToken()}"
                 val apiService = ApiConfig.getApiService()
 
-                val response = apiService.uploadIde(token, file, title, description, detail)
+                val response = apiService.uploadIde(
+                    token, file, title, description, summary, detail, neededRole1, neededRole2
+                )
 
-                if (response.error == false) {
+                if (!response.error!!) {
                     showToast("Idea uploaded successfully!")
                     navigateToMain()
                 } else {
@@ -163,10 +174,7 @@ class UploadIdeActivity : AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-
     companion object {
-        const val CAMERA_X_RESULT = 200
-
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
         private const val REQUEST_CODE_PERMISSIONS = 10
     }

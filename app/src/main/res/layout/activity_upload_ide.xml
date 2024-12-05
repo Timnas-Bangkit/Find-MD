@@ -63,10 +63,10 @@
 
             <ImageView
                 android:id="@+id/imgView"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/storm_trooper"
+                android:src="@drawable/ic_image_24"
                 android:layout_marginEnd="8dp" />
 
             <androidx.appcompat.widget.AppCompatImageButton
@@ -100,28 +100,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/title_idea"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/taglineEditTextLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginTop="16dp"
-            style="@style/CustomTextInputStyle1"
-            app:boxStrokeColor="@color/black"
-            app:boxBackgroundMode="outline"
-            app:boxStrokeWidth="1dp"
-            app:hintTextColor="@color/black">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/taglineIdeaEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/tagline_optional"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -179,6 +157,79 @@
                 android:gravity="top|start"
                 android:scrollbars="vertical"
                 android:background="@null" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Summary Field -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/summaryEditTextLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginTop="16dp"
+            style="@style/CustomTextInputStyle1"
+            app:boxStrokeColor="@color/black"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeWidth="1dp"
+            app:hintTextColor="@color/black">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/summaryEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/summary"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:maxLines="5"
+                android:minLines="3"
+                android:gravity="top|start"
+                android:scrollbars="vertical"
+                android:background="@null" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Needed Role Fields -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/neededRole1EditTextLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginTop="16dp"
+            style="@style/CustomTextInputStyle1"
+            app:boxStrokeColor="@color/black"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeWidth="1dp"
+            app:hintTextColor="@color/black">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/neededRole1EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/needed_role_1"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/neededRole2EditTextLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginTop="16dp"
+            style="@style/CustomTextInputStyle1"
+            app:boxStrokeColor="@color/black"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeWidth="1dp"
+            app:hintTextColor="@color/black">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/neededRole2EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/needed_role_2"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button

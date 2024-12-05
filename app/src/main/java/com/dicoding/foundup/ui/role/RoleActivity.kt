@@ -4,10 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.dicoding.foundup.R
+import com.dicoding.foundup.di.Injection
+import com.dicoding.foundup.ui.RoleViewModelFactory
+import com.dicoding.foundup.ui.main.MainActivity
 
-@Suppress("DEPRECATION")
 class RoleActivity : AppCompatActivity() {
 
     private lateinit var ownerButton: Button
@@ -15,6 +19,11 @@ class RoleActivity : AppCompatActivity() {
     private lateinit var nextButton: Button
 
     private var selectedRole: String? = null
+
+    private val roleViewModel: RoleViewModel by viewModels {
+        RoleViewModelFactory(Injection.provideRepository(application)) // Gunakan RoleViewModelFactory
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,11 +46,23 @@ class RoleActivity : AppCompatActivity() {
         // Kirim role yang dipilih saat tombol "Next" diklik
         nextButton.setOnClickListener {
             selectedRole?.let { role ->
-                val resultIntent = Intent().apply {
-                    putExtra(EXTRA_SELECTED_ROLE, role)
+                roleViewModel.getUserToken { token ->
+                    if (token != null) {
+                        roleViewModel.setUserRole(
+                            token = token,
+                            role = role,
+                            onSuccess = {
+                                Toast.makeText(this, "Role updated successfully", Toast.LENGTH_SHORT).show()
+                                navigateToNextScreen()
+                            },
+                            onError = { errorMessage ->
+                                Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
+                            }
+                        )
+                    } else {
+                        Toast.makeText(this, "Token is missing", Toast.LENGTH_SHORT).show()
+                    }
                 }
-                setResult(RESULT_OK, resultIntent)
-                finish()
             }
         }
     }
@@ -66,11 +87,10 @@ class RoleActivity : AppCompatActivity() {
         nextButton.isEnabled = true
     }
 
-
-
-    companion object {
-        const val EXTRA_SELECTED_ROLE = "extra_selected_role"
+    private fun navigateToNextScreen() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
+
 }
-
-

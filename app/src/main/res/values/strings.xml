@@ -76,4 +76,9 @@
     <string name="list_candidate">Candidate</string>
     <string name="linkedin">LinkedIn</string>
     <string name="instagram">Instagram</string>
+    <string name="gmail">Gmail</string>
+    <string name="coming_soon_image">coming soon image</string>
+    <string name="needed_role_1">Need Role 1</string>
+    <string name="needed_role_2">Need Role 2</string>
+    <string name="summary">Sumarry</string>
 </resources>

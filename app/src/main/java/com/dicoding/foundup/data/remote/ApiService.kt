@@ -37,15 +37,18 @@ interface ApiService {
         @Field("password") password: String
     ): LoginResponse
 
+    // fungsi untuk mengambil data(role) saat login
     @GET("api/users/me")
     suspend fun getRole(@Header("Authorization") authHeader: String): ProfileResponse
 
+    // fungsi untuk mengirimkan data (mengambil) role
     @POST("api/users/role")
     suspend fun roleUser(
         @Header("Authorization") token: String,
         @Body dataRole: DataRole
     ): RoleResponse
 
+    // fungsi untuk mengambil data postingan
     @GET("api/posts")
     suspend fun getAllUser(
         @Header("Authorization") token: String
@@ -58,7 +61,10 @@ interface ApiService {
         @Part file: MultipartBody.Part,
         @Part("title") title: RequestBody,
         @Part("description") description: RequestBody,
-        @Part("detail") detail: RequestBody
+        @Part ("summary") summary: RequestBody,
+        @Part("detail") detail: RequestBody,
+        @Part("neededRole1") neededRole1: RequestBody,
+        @Part("neededRole2") neededRole2: RequestBody
     ): AddIdeResponse
 
 }

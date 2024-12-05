@@ -7,6 +7,17 @@ import kotlinx.coroutines.launch
 
 class RoleViewModel(private val userRepository: UserRepository) : ViewModel() {
 
+    fun getUserToken(onTokenRetrieved: (String?) -> Unit) {
+        viewModelScope.launch {
+            try {
+                val token = userRepository.getUserToken()
+                onTokenRetrieved(token)
+            } catch (e: Exception) {
+                onTokenRetrieved(null)
+            }
+        }
+    }
+
     fun setUserRole(token: String, role: String, onSuccess: () -> Unit, onError: (String) -> Unit) {
         viewModelScope.launch {
             try {
@@ -21,4 +32,5 @@ class RoleViewModel(private val userRepository: UserRepository) : ViewModel() {
             }
         }
     }
+
 }

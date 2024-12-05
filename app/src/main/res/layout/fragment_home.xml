@@ -73,8 +73,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="All"
-                android:backgroundTint="@color/purple_500"
-                android:textColor="@android:color/white"
+                android:backgroundTint="@color/purple_200"
+                android:textColor="@android:color/black"
                 android:layout_marginEnd="8dp" />
 
             <!-- Category Button: Music -->
@@ -108,11 +108,11 @@
     <!-- RecyclerView for Feeds -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="387dp"
+        android:layout_height="505dp"
+        android:layout_below="@id/categoryButtons"
         android:clipToPadding="false"
-        android:padding="8dp"
-        android:layout_below="@id/categoryButtons" />
+        android:padding="8dp" />
 
     <!-- Add Post Button -->
     <androidx.appcompat.widget.AppCompatImageButton
@@ -128,15 +128,5 @@
         android:src="@drawable/ic_add_24"
         android:contentDescription="@string/add_post"
         android:visibility="gone"/>
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </RelativeLayout>

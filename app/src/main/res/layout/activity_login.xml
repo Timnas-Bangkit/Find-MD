@@ -43,6 +43,7 @@
         app:boxBackgroundMode="outline"
         app:boxStrokeWidth="1dp"
         app:hintTextColor="@color/white"
+        app:startIconDrawable="@drawable/ic_baseline_email"
         app:layout_constraintTop_toBottomOf="@id/titleTextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">

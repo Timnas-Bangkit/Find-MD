@@ -111,7 +111,14 @@ class UserRepository(
 
     suspend fun setUserRole(token: String, role: String): RoleResponse? {
         return try {
-            val dataRole = DataRole(role = role)
+            // Map role menjadi nilai yang sesuai dengan API (2 untuk Owner, 3 untuk Tech Worker)
+            val roleValue = when (role) {
+                "Owner" -> "2"
+                "Tech Worker" -> "3"
+                else -> throw IllegalArgumentException("Invalid role")
+            }
+
+            val dataRole = DataRole(role = roleValue)  // Pastikan role sesuai dengan nilai yang diterima API
             apiService.roleUser("Bearer $token", dataRole)
         } catch (e: Exception) {
             null // Kembalikan null jika terjadi error

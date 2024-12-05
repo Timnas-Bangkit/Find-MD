@@ -14,7 +14,6 @@ import com.dicoding.foundup.data.UserRepository
 import com.dicoding.foundup.data.pref.UserPreference
 import com.dicoding.foundup.data.remote.ApiConfig
 import com.dicoding.foundup.databinding.ActivityLoginBinding
-import com.dicoding.foundup.di.Injection
 import com.dicoding.foundup.ui.LoginViewModelFactory
 import com.dicoding.foundup.ui.akun.register.RegisterActivity
 import com.dicoding.foundup.ui.main.MainActivity
