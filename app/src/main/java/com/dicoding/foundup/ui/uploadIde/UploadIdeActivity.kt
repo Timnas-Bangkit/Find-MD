@@ -6,6 +6,7 @@ import android.content.Intent.ACTION_GET_CONTENT
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -96,7 +97,7 @@ class UploadIdeActivity : AppCompatActivity() {
             val file = reduceFileImage(getFile as File)
             val requestImageFile = file.asRequestBody("image/jpeg".toMediaType())
             val imageMultipart =
-                MultipartBody.Part.createFormData("file", file.name, requestImageFile)
+                MultipartBody.Part.createFormData("image", file.name, requestImageFile)
 
             val titleText = binding.titleIdeaEditText.text?.trim().toString()
             val descriptionText = binding.descriptionIdeaEditText.text?.trim().toString()
@@ -146,7 +147,7 @@ class UploadIdeActivity : AppCompatActivity() {
                 val apiService = ApiConfig.getApiService()
 
                 val response = apiService.uploadIde(
-                    token, file, title, description, summary, detail, neededRole1, neededRole2
+                    token ,file,title, description, summary, detail, neededRole1, neededRole2
                 )
 
                 if (!response.error!!) {

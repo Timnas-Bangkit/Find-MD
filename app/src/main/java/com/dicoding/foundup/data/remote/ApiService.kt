@@ -20,7 +20,7 @@ import retrofit2.http.Part
 
 interface ApiService {
 
-    // //fungsi untuk mengirimkan data saat register
+    //fungsi untuk mengirimkan data saat register
     @POST("api/users/register")
     @FormUrlEncoded
     suspend fun registerUser(
@@ -63,8 +63,8 @@ interface ApiService {
         @Part("description") description: RequestBody,
         @Part ("summary") summary: RequestBody,
         @Part("detail") detail: RequestBody,
-        @Part("neededRole1") neededRole1: RequestBody,
-        @Part("neededRole2") neededRole2: RequestBody
+        @Part("neededRole") neededRole1: RequestBody,
+        @Part("neededRole") neededRole2: RequestBody
     ): AddIdeResponse
 
 }
