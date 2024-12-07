@@ -81,4 +81,9 @@
     <string name="needed_role_1">Need Role 1</string>
     <string name="needed_role_2">Need Role 2</string>
     <string name="summary">Sumarry</string>
+    <string name="illustration">Illustration</string>
+    <string name="see_my_application">See My Application</string>
+    <string name="back">Back</string>
+    <string name="text_body_join_team">Your application has been successfully accepted. Now you just need to wait for a response from the founder</string>
+    <string name="Tittle_join_team">Congratulations!</string>
 </resources>

@@ -21,7 +21,7 @@ class RoleActivity : AppCompatActivity() {
     private var selectedRole: String? = null
 
     private val roleViewModel: RoleViewModel by viewModels {
-        RoleViewModelFactory(Injection.provideRepository(application)) // Gunakan RoleViewModelFactory
+        RoleViewModelFactory(Injection.provideRepository(application))
     }
 
 
@@ -70,22 +70,45 @@ class RoleActivity : AppCompatActivity() {
     private fun updateSelection(role: String) {
         selectedRole = role
 
-        // Atur state tombol
+        // Reset warna semua tombol
+        ownerButton.setBackgroundResource(R.drawable.btn_unselected_bg)
+        techWorkerButton.setBackgroundResource(R.drawable.btn_unselected_bg)
+
+        // Atur warna tombol yang dipilih
         when (role) {
             "Owner" -> {
-                ownerButton.isSelected = true
-                techWorkerButton.isSelected = false
-                Log.d("ButtonState", "Owner selected")
+                ownerButton.setBackgroundResource(R.drawable.btn_selected_bg)
+                techWorkerButton.setBackgroundResource(R.drawable.btn_unselected_bg)
             }
             "Tech Worker" -> {
-                ownerButton.isSelected = false
-                techWorkerButton.isSelected = true
-                Log.d("ButtonState", "Tech Worker selected")
+                techWorkerButton.setBackgroundResource(R.drawable.btn_selected_bg)
+                ownerButton.setBackgroundResource(R.drawable.btn_unselected_bg)
             }
         }
 
         nextButton.isEnabled = true
     }
+
+
+//    private fun updateSelection(role: String) {
+//        selectedRole = role
+//
+//        // Atur state tombol
+//        when (role) {
+//            "Owner" -> {
+//                ownerButton.isSelected = true
+//                techWorkerButton.isSelected = false
+//                Log.d("ButtonState", "Owner selected")
+//            }
+//            "Tech Worker" -> {
+//                ownerButton.isSelected = false
+//                techWorkerButton.isSelected = true
+//                Log.d("ButtonState", "Tech Worker selected")
+//            }
+//        }
+//
+//        nextButton.isEnabled = true
+//    }
 
     private fun navigateToNextScreen() {
         val intent = Intent(this, MainActivity::class.java)
