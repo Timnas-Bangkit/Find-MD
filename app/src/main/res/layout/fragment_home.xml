@@ -22,8 +22,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:queryHint="Search"
+            android:iconifiedByDefault="false"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:background="@drawable/bg_search"
-            android:iconifiedByDefault="false" />
+            android:textColor="@android:color/black"
+        android:queryBackground="@android:color/white"/>
+
 
         <!-- Profile Icon -->
         <ImageView
@@ -70,38 +75,40 @@
 
             <!-- Category Button: All -->
             <Button
+                android:id="@+id/buttonAll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="All"
+                android:text="@string/all"
                 android:backgroundTint="@color/purple_200"
                 android:textColor="@android:color/black"
                 android:layout_marginEnd="8dp" />
 
-            <!-- Category Button: Music -->
             <Button
+                android:id="@+id/buttonMusic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Music"
+                android:text="@string/music"
                 android:backgroundTint="@color/purple_200"
                 android:textColor="@android:color/black"
                 android:layout_marginEnd="8dp" />
 
-            <!-- Category Button: Tech -->
             <Button
+                android:id="@+id/buttonTech"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tech"
+                android:text="@string/tech"
                 android:backgroundTint="@color/purple_200"
                 android:textColor="@android:color/black"
                 android:layout_marginEnd="8dp" />
 
-            <!-- Category Button: Design -->
             <Button
+                android:id="@+id/buttonDesign"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Design"
+                android:text="@string/design"
                 android:backgroundTint="@color/purple_200"
                 android:textColor="@android:color/black" />
+
         </LinearLayout>
     </HorizontalScrollView>
 

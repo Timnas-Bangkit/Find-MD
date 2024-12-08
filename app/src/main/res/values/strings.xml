@@ -86,4 +86,8 @@
     <string name="back">Back</string>
     <string name="text_body_join_team">Your application has been successfully accepted. Now you just need to wait for a response from the founder</string>
     <string name="Tittle_join_team">Congratulations!</string>
+    <string name="all">All</string>
+    <string name="music">Music</string>
+    <string name="tech">Tech</string>
+    <string name="design">Design</string>
 </resources>

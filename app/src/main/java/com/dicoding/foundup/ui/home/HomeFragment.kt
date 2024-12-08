@@ -2,23 +2,22 @@ package com.dicoding.foundup.ui.home
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.foundup.R
 import com.dicoding.foundup.adapter.PostAdapter
 import com.dicoding.foundup.databinding.FragmentHomeBinding
 import com.dicoding.foundup.di.Injection
 import com.dicoding.foundup.ui.HomeViewModelFactory
-import com.dicoding.foundup.ui.profile.ProfileFragment
 import com.dicoding.foundup.ui.role.RoleActivity
 import com.dicoding.foundup.ui.uploadIde.UploadIdeActivity
 import kotlinx.coroutines.launch
@@ -38,6 +37,8 @@ class HomeFragment : Fragment() {
 
     private val postAdapter = PostAdapter()
 
+    private var selectedCategory: String = "All" // Default kategori awal
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -49,13 +50,17 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
+        setupSearchView()
+        setupCategoryButtons()
         handleAddIdeaSuccess()
-        viewProfile()
+        observeUserToken()
+
         homeViewModel.userData.observe(viewLifecycleOwner) { userData ->
             postAdapter.setData(userData)
         }
-        observeUserToken()
 
+        // Set default kategori ke "All" saat fragment pertama kali dibuka
+        filterByCategory("All")
     }
 
     private fun setupRecyclerView() {
@@ -65,17 +70,68 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun viewProfile() {
-        binding.profileIcon.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_profileFragment)
+    private fun setupSearchView() {
+        binding.searchView.apply {
+            setOnClickListener {
+                requestFocus()
+            }
+
+            findViewById<EditText>(androidx.appcompat.R.id.search_src_text).setTextColor(Color.BLACK)
+            findViewById<EditText>(androidx.appcompat.R.id.search_src_text).setHintTextColor(Color.GRAY)
+
+            setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    query?.let { filterPosts(it) }
+                    return true
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    newText?.let { filterPosts(it) }
+                    return true
+                }
+            })
         }
     }
 
-    private fun setupPostButton() {
-        binding.postButton.visibility = View.VISIBLE
-        binding.postButton.setOnClickListener {
-            val intent = Intent(requireContext(), UploadIdeActivity::class.java)
-            startActivity(intent)
+    private fun filterPosts(query: String) {
+        postAdapter.filter.filter(query)
+    }
+
+    private fun setupCategoryButtons() {
+        binding.buttonAll.setOnClickListener { filterByCategory("All") }
+        binding.buttonMusic.setOnClickListener { filterByCategory("Music") }
+        binding.buttonTech.setOnClickListener { filterByCategory("Tech") }
+        binding.buttonDesign.setOnClickListener { filterByCategory("Design") }
+    }
+
+    private fun filterByCategory(category: String) {
+        selectedCategory = category
+
+        val filteredPosts = homeViewModel.userData.value?.filter { post ->
+            category == "All" || post.description!!.contains(category, ignoreCase = true)
+        }
+
+        postAdapter.setData(filteredPosts ?: emptyList())
+        updateCategoryButtonState()
+    }
+
+    private fun updateCategoryButtonState() {
+        val buttons = listOf(
+            binding.buttonAll,
+            binding.buttonMusic,
+            binding.buttonTech,
+            binding.buttonDesign
+        )
+
+        buttons.forEach { button ->
+            val isSelected = button.text.toString().equals(selectedCategory, ignoreCase = true)
+            button.setBackgroundColor(
+                if (isSelected) Color.parseColor("#FF3700B3") // Warna ungu terpilih
+                else Color.parseColor("#FFBB86FC")          // Warna ungu default
+            )
+            button.setTextColor(
+                if (isSelected) Color.WHITE else Color.BLACK
+            )
         }
     }
 
@@ -88,7 +144,6 @@ class HomeFragment : Fragment() {
         }
     }
 
-
     private fun observeUserToken() {
         lifecycleScope.launch {
             try {
@@ -96,13 +151,10 @@ class HomeFragment : Fragment() {
                 if (!token.isNullOrEmpty()) {
                     val role = homeViewModel.getUserRole(token)
                     if (role == "owner") {
-                        // Role adalah "owner", tampilkan tombol post
                         setupPostButton()
                     } else if (role == "techWorker") {
-                        // Role adalah "techWorker", sembunyikan tombol post
                         binding.postButton.visibility = View.GONE
                     } else {
-                        // Role selain itu (atau null), navigasikan ke RoleActivity
                         navigateToRoleActivity()
                     }
                     homeViewModel.fetchUserData()
@@ -115,6 +167,13 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun setupPostButton() {
+        binding.postButton.visibility = View.VISIBLE
+        binding.postButton.setOnClickListener {
+            val intent = Intent(requireContext(), UploadIdeActivity::class.java)
+            startActivity(intent)
+        }
+    }
 
     private fun navigateToRoleActivity() {
         val intent = Intent(requireContext(), RoleActivity::class.java)
