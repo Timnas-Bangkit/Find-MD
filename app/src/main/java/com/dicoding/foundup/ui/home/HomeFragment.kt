@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dicoding.foundup.R
 import com.dicoding.foundup.adapter.PostAdapter
 import com.dicoding.foundup.databinding.FragmentHomeBinding
 import com.dicoding.foundup.di.Injection
@@ -126,8 +125,8 @@ class HomeFragment : Fragment() {
         buttons.forEach { button ->
             val isSelected = button.text.toString().equals(selectedCategory, ignoreCase = true)
             button.setBackgroundColor(
-                if (isSelected) Color.parseColor("#FF3700B3") // Warna ungu terpilih
-                else Color.parseColor("#FFBB86FC")          // Warna ungu default
+                if (isSelected) Color.parseColor("#FF3700B3")
+                else Color.parseColor("#FFBB86FC")
             )
             button.setTextColor(
                 if (isSelected) Color.WHITE else Color.BLACK

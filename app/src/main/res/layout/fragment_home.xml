@@ -115,8 +115,8 @@
     <!-- RecyclerView for Feeds -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="387dp"
-        android:layout_height="505dp"
+        android:layout_width="395dp"
+        android:layout_height="538dp"
         android:layout_below="@id/categoryButtons"
         android:clipToPadding="false"
         android:padding="8dp" />

@@ -39,7 +39,9 @@ interface ApiService {
 
     // fungsi untuk mengambil data(role) saat login
     @GET("api/users/me")
-    suspend fun getRole(@Header("Authorization") authHeader: String): ProfileResponse
+    suspend fun getRole(
+        @Header("Authorization") authHeader: String
+    ): ProfileResponse
 
     // fungsi untuk mengirimkan data (mengambil) role
     @POST("api/users/role")
