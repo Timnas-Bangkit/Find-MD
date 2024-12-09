@@ -13,6 +13,7 @@ import com.dicoding.foundup.data.response.RegisterResponse
 import com.dicoding.foundup.data.response.RoleResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import retrofit2.HttpException
 
 class UserRepository(
     private val apiService: ApiService, private val userPreference: UserPreference
@@ -52,18 +53,22 @@ class UserRepository(
 
     suspend fun fetchUser(): List<DataItem> {
         return try {
-            val token = userPreference.getUserToken.first()
-            println("Fetched token: $token") // Debug token
-            if (token.isNullOrEmpty()) {
-                throw IllegalStateException("Token is null or empty")
-            }
+            val token = userPreference.getUserToken.first() ?: throw IllegalStateException("Token is null")
             val response = apiService.getAllUser("Bearer $token")
             response.data
+        } catch (e: HttpException) {
+            if (e.code() == 401) { // Unauthorized
+                Log.e("UserRepository", "Invalid token, clearing user data")
+                userPreference.clearUserToken()
+                userPreference.clearUserLogin()
+            }
+            emptyList()
         } catch (e: Exception) {
-            e.printStackTrace()
+            Log.e("UserRepository", "Unexpected error: ${e.message}", e)
             emptyList()
         }
     }
+
 
 
     suspend fun getUserToken(): String? {

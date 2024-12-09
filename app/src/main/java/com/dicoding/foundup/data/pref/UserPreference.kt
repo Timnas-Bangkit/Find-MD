@@ -1,6 +1,7 @@
 package com.dicoding.foundup.data.pref
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -30,15 +31,18 @@ class UserPreference private constructor(context: Context) {
     }
 
     suspend fun saveUserToken(token: String?) {
+        Log.d("UserPreference", "Saving token: $token") // Log token sebelum disimpan
         dataStore.edit { preferences ->
             preferences[USER_TOKEN] = token.orEmpty()
         }
     }
 
-
     val getUserToken: Flow<String?> = dataStore.data.map { preferences ->
-        preferences[USER_TOKEN]
+        val token = preferences[USER_TOKEN]
+        Log.d("UserPreference", "Retrieved token: $token") // Log token saat diambil
+        token
     }
+
 
 
     suspend fun clearUserToken() {

@@ -90,4 +90,13 @@
     <string name="music">Music</string>
     <string name="tech">Tech</string>
     <string name="design">Design</string>
+
+    <string name="no_title">No Title Available</string>
+    <string name="no_description">No Description Available</string>
+    <string name="no_details">No Details Available</string>
+    <string name="no_summary">No Summary Available</string>
+    <string name="unknown_user">Unknown User</string>
+    <string name="unknown_role">Unknown Role</string>
+    <string name="no_roles_needed">No Roles Needed</string>
+
 </resources>

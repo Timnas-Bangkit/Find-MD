@@ -3,6 +3,8 @@ package com.dicoding.foundup.data.remote
 import com.dicoding.foundup.data.response.AddIdeResponse
 import com.dicoding.foundup.data.response.AllUserResponse
 import com.dicoding.foundup.data.response.DataRole
+import com.dicoding.foundup.data.response.DetaiIdeData
+import com.dicoding.foundup.data.response.DetaiIdeResponse
 import com.dicoding.foundup.data.response.LoginResponse
 import com.dicoding.foundup.data.response.ProfileResponse
 import com.dicoding.foundup.data.response.RegisterResponse
@@ -17,6 +19,7 @@ import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
+import retrofit2.http.Path
 
 interface ApiService {
 
@@ -39,9 +42,7 @@ interface ApiService {
 
     // fungsi untuk mengambil data(role) saat login
     @GET("api/users/me")
-    suspend fun getRole(
-        @Header("Authorization") authHeader: String
-    ): ProfileResponse
+    suspend fun getRole(@Header("Authorization") authHeader: String): ProfileResponse
 
     // fungsi untuk mengirimkan data (mengambil) role
     @POST("api/users/role")
@@ -56,6 +57,7 @@ interface ApiService {
         @Header("Authorization") token: String
     ): AllUserResponse
 
+    // fungsi untuk mengirimkan data postingan
     @Multipart
     @POST("api/posts")
     suspend fun uploadIde(
@@ -68,5 +70,12 @@ interface ApiService {
         @Part("neededRole") neededRole1: RequestBody,
         @Part("neededRole") neededRole2: RequestBody
     ): AddIdeResponse
+
+
+    @GET("api/posts/{id}")
+    suspend fun getDetailIde(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int
+    ): DetaiIdeResponse
 
 }

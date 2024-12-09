@@ -1,6 +1,7 @@
 package com.dicoding.foundup.adapter
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -11,6 +12,7 @@ import com.dicoding.foundup.data.response.DataItem
 import com.dicoding.foundup.databinding.CardviewPostBinding
 import android.widget.Filter
 import android.widget.Filterable
+import com.dicoding.foundup.ui.ideDetail.IdeDetailActivity
 
 class PostAdapter : RecyclerView.Adapter<PostAdapter.MyViewHolder>(), Filterable {
 
@@ -25,7 +27,15 @@ class PostAdapter : RecyclerView.Adapter<PostAdapter.MyViewHolder>(), Filterable
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = filteredList[position]
         holder.bind(item)
+
+        holder.itemView.setOnClickListener {
+            val intent = Intent(it.context, IdeDetailActivity::class.java)
+            intent.putExtra("POST_ID", item.id)  // Kirim ID post yang dipilih
+            intent.putExtra("TOKEN", "Bearer <Your_Token>")  // Kirim token
+            it.context.startActivity(intent)
+        }
     }
+
 
     override fun getItemCount(): Int = filteredList.size
 

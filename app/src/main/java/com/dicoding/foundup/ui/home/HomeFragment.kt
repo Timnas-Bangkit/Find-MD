@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dicoding.foundup.R
 import com.dicoding.foundup.adapter.PostAdapter
 import com.dicoding.foundup.databinding.FragmentHomeBinding
 import com.dicoding.foundup.di.Injection

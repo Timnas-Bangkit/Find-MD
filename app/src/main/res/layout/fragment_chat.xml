@@ -7,33 +7,31 @@
     android:background="@color/white"
     tools:context=".ui.chat.ChatFragment">
 
-    <!-- Decorative Illustration (Optional) -->
     <ImageView
         android:id="@+id/imgComingSoon"
-        android:layout_width="259dp"
-        android:layout_height="232dp"
-        android:layout_marginBottom="16dp"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
         android:contentDescription="@string/coming_soon_image"
         android:src="@drawable/ic_coming_soon"
         app:layout_constraintBottom_toTopOf="@+id/text_chat"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.309" />
 
-    <!-- Coming Soon Text -->
     <TextView
         android:id="@+id/text_chat"
+        style="@style/Header_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="184dp"
+        android:layout_marginBottom="296dp"
         android:padding="16dp"
         android:text="@string/title_chat"
         android:textColor="@color/black"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        android:textSize="28sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
