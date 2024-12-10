@@ -2,6 +2,7 @@ package com.dicoding.foundup.ui.ideDetail
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -28,8 +29,6 @@ class IdeDetailActivity : AppCompatActivity() {
             Toast.makeText(this, "Invalid post ID", Toast.LENGTH_SHORT).show()
             finish()
             return
-        } else {
-            Log.d("Debug", "Post ID: $postId")
         }
 
         // Setup observer
@@ -39,6 +38,7 @@ class IdeDetailActivity : AppCompatActivity() {
         viewModel.getUserToken { token ->
             if (!token.isNullOrEmpty()) {
                 viewModel.fetchDetailIde(postId)
+                viewModel.fetchUserRole() // Ambil role user
             } else {
                 Toast.makeText(this, "Failed to retrieve user token", Toast.LENGTH_SHORT).show()
                 finish()
@@ -50,17 +50,15 @@ class IdeDetailActivity : AppCompatActivity() {
         // Observer untuk data detail ide
         viewModel.ideDetail.observe(this) { detailData ->
             if (detailData != null) {
-                Log.d("IdeDetailActivity", "Detail data loaded: $detailData")
                 populateDetail(detailData)
             } else {
-                Log.e("IdeDetailActivity", "Detail data is null")
                 Toast.makeText(this, "Failed to load detail data", Toast.LENGTH_SHORT).show()
             }
         }
 
         // Observer untuk status loading
         viewModel.loading.observe(this) { isLoading ->
-            binding.progressBar.visibility = if (isLoading) android.view.View.VISIBLE else android.view.View.GONE
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
             binding.btnJoin.isEnabled = !isLoading // Menonaktifkan tombol saat loading
         }
 
@@ -68,6 +66,15 @@ class IdeDetailActivity : AppCompatActivity() {
         viewModel.error.observe(this) { errorMessage ->
             if (!errorMessage.isNullOrEmpty()) {
                 Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // Observer untuk role user
+        viewModel.userRole.observe(this) { role ->
+            if (role == "techworker") {
+                binding.btnJoin.visibility = View.VISIBLE
+            } else {
+                binding.btnJoin.visibility = View.GONE
             }
         }
     }
@@ -87,26 +94,24 @@ class IdeDetailActivity : AppCompatActivity() {
         val userProfile = detailData.user?.userProfile
         binding.founderName.text = userProfile?.name ?: getString(R.string.unknown_user)
 
-        // Menampilkan gambar founder menggunakan Glide dengan pengecekan null
+        // Menampilkan gambar founder menggunakan Glide
         val founderImageUrl = userProfile?.profilePic
         if (!founderImageUrl.isNullOrEmpty()) {
             Glide.with(this)
                 .load(founderImageUrl)
                 .placeholder(R.drawable.ic_profile_24)
-                .error(R.drawable.img)
                 .circleCrop()
                 .into(binding.founderImage)
         } else {
             binding.founderImage.setImageResource(R.drawable.ic_profile_24)
         }
 
-        // Menampilkan gambar ide menggunakan Glide dengan pengecekan null
+        // Menampilkan gambar ide menggunakan Glide
         val ideaImageUrl = detailData.image
         if (!ideaImageUrl.isNullOrEmpty()) {
             Glide.with(this)
                 .load(ideaImageUrl)
                 .placeholder(R.drawable.ic_image_24)
-                .error(R.drawable.img)
                 .into(binding.ideaImage)
         } else {
             binding.ideaImage.setImageResource(R.drawable.ic_image_24)

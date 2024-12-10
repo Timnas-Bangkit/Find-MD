@@ -99,4 +99,7 @@
     <string name="unknown_role">Unknown Role</string>
     <string name="no_roles_needed">No Roles Needed</string>
 
+    <string name="title_owner_profile">Owner Profile</string>
+    <string name="title_techworker_profile">Techworker Profile</string>
+
 </resources>

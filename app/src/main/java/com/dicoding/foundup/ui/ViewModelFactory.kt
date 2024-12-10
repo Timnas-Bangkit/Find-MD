@@ -7,6 +7,7 @@ import com.dicoding.foundup.data.UserRepository
 import com.dicoding.foundup.ui.akun.login.LoginViewModel
 import com.dicoding.foundup.ui.akun.register.RegisterViewModel
 import com.dicoding.foundup.ui.home.HomeViewModel
+import com.dicoding.foundup.ui.main.MainViewModel
 import com.dicoding.foundup.ui.role.RoleViewModel
 
 class LoginViewModelFactory(
@@ -44,6 +45,16 @@ class RoleViewModelFactory(private val userRepository: UserRepository) : ViewMod
         if (modelClass.isAssignableFrom(RoleViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return RoleViewModel(userRepository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
+}
+
+class ViewModelFactory(private val userRepository: UserRepository) : ViewModelProvider.Factory {
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
+            return MainViewModel(userRepository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

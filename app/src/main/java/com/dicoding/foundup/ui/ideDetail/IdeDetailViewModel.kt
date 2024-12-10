@@ -24,6 +24,9 @@ class IdeDetailViewModel(application: Application) : AndroidViewModel(applicatio
     private val _error = MutableLiveData<String?>()
     val error: LiveData<String?> get() = _error
 
+    private val _userRole = MutableLiveData<String?>()
+    val userRole: LiveData<String?> get() = _userRole
+
     init {
         val context = getApplication<Application>().applicationContext
         val userPreference = UserPreference.getInstance(context)
@@ -33,12 +36,10 @@ class IdeDetailViewModel(application: Application) : AndroidViewModel(applicatio
     fun fetchDetailIde(postId: Int) {
         _loading.value = true
 
-        // Menggunakan metode getUserToken untuk mendapatkan token
         getUserToken { token ->
             if (!token.isNullOrEmpty()) {
                 viewModelScope.launch {
                     try {
-                        Log.d("IdeDetailViewModel", "Using token: Bearer $token")
                         val response = apiService.getDetailIde("Bearer $token", postId)
                         if (response.error == false) {
                             _ideDetail.value = response.data
@@ -58,13 +59,30 @@ class IdeDetailViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
+    fun fetchUserRole() {
+        getUserToken { token ->
+            if (!token.isNullOrEmpty()) {
+                viewModelScope.launch {
+                    try {
+                        val response = userRepository.getUserRole("Bearer $token")
+                        _userRole.value = response?.data?.role
+                    } catch (e: Exception) {
+                        Log.e("IdeDetailViewModel", "Error fetching user role: ${e.localizedMessage}")
+                        _userRole.value = null
+                    }
+                }
+            } else {
+                _userRole.value = null
+            }
+        }
+    }
+
     fun getUserToken(onTokenRetrieved: (String?) -> Unit) {
         viewModelScope.launch {
             try {
                 val token = userRepository.getUserToken()
                 onTokenRetrieved(token)
             } catch (e: Exception) {
-                Log.e("IdeDetailViewModel", "Error retrieving token: ${e.localizedMessage}")
                 onTokenRetrieved(null)
             }
         }
