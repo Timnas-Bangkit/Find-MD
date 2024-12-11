@@ -9,6 +9,7 @@ import com.dicoding.foundup.data.response.LoginResponse
 import com.dicoding.foundup.data.response.ProfileResponse
 import com.dicoding.foundup.data.response.RegisterResponse
 import com.dicoding.foundup.data.response.RoleResponse
+import com.dicoding.foundup.data.response.UploadCVResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Body
@@ -71,11 +72,19 @@ interface ApiService {
         @Part("neededRole") neededRole2: RequestBody
     ): AddIdeResponse
 
-
+    // fungsi untuk mendapatka detail post (berdasarkan id)
     @GET("api/posts/{id}")
     suspend fun getDetailIde(
         @Header("Authorization") token: String,
         @Path("id") id: Int
     ): DetaiIdeResponse
+
+    // fungsi untuk mengirimkan data (CV / dokumen pdf)
+    @Multipart
+    @POST("api/users/cv")
+    suspend fun uploadCV(
+        @Header("Authorization") token: String,
+        @Part cv: MultipartBody.Part
+    ): UploadCVResponse
 
 }

@@ -38,7 +38,7 @@ class IdeDetailActivity : AppCompatActivity() {
         viewModel.getUserToken { token ->
             if (!token.isNullOrEmpty()) {
                 viewModel.fetchDetailIde(postId)
-                viewModel.fetchUserRole() // Ambil role user
+                viewModel.fetchUserRole(token)
             } else {
                 Toast.makeText(this, "Failed to retrieve user token", Toast.LENGTH_SHORT).show()
                 finish()
@@ -71,10 +71,10 @@ class IdeDetailActivity : AppCompatActivity() {
 
         // Observer untuk role user
         viewModel.userRole.observe(this) { role ->
-            if (role == "techworker") {
-                binding.btnJoin.visibility = View.VISIBLE
-            } else {
+            if (role == "owner") {
                 binding.btnJoin.visibility = View.GONE
+            } else {
+                binding.btnJoin.visibility = View.VISIBLE
             }
         }
     }

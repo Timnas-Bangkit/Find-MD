@@ -59,21 +59,23 @@ class IdeDetailViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-    fun fetchUserRole() {
-        getUserToken { token ->
-            if (!token.isNullOrEmpty()) {
-                viewModelScope.launch {
-                    try {
-                        val response = userRepository.getUserRole("Bearer $token")
-                        _userRole.value = response?.data?.role
-                    } catch (e: Exception) {
-                        Log.e("IdeDetailViewModel", "Error fetching user role: ${e.localizedMessage}")
-                        _userRole.value = null
-                    }
-                }
-            } else {
-                _userRole.value = null
+    fun fetchUserRole(token: String) {
+        viewModelScope.launch {
+            try {
+                val role = getUserRole(token)
+                _userRole.value = role
+            } catch (e: Exception) {
+                _error.value = "Failed to fetch user role: ${e.localizedMessage}"
             }
+        }
+    }
+
+    suspend fun getUserRole(token: String): String? {
+        return try {
+            val roleResponse = userRepository.getUserRole(token)
+            roleResponse?.data?.role // Mengembalikan role, bisa null jika belum dipilih
+        } catch (e: Exception) {
+            null // Jika terjadi kesalahan, anggap role belum dipilih
         }
     }
 

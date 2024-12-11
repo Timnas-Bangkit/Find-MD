@@ -11,8 +11,10 @@ import com.dicoding.foundup.data.response.LoginResponse
 import com.dicoding.foundup.data.response.ProfileResponse
 import com.dicoding.foundup.data.response.RegisterResponse
 import com.dicoding.foundup.data.response.RoleResponse
+import com.dicoding.foundup.data.response.UploadCVResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import okhttp3.MultipartBody
 import retrofit2.HttpException
 
 class UserRepository(
@@ -128,6 +130,11 @@ class UserRepository(
         } catch (e: Exception) {
             null // Kembalikan null jika terjadi error
         }
+    }
+
+
+    suspend fun uploadCV(token: String, cv: MultipartBody.Part): UploadCVResponse {
+        return apiService.uploadCV("Bearer $token", cv)
     }
 
 
