@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.myaplication.MyAplicationActivity">
+    tools:context=".ui.myidea.MyIdeaActivity">
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -15,5 +16,5 @@
         android:padding="16dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:listitem="@layout/item_application"/>
+        tools:listitem="@layout/cardview_post"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

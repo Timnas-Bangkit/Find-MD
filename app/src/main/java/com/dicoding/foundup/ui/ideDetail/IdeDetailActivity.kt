@@ -29,6 +29,8 @@ class IdeDetailActivity : AppCompatActivity() {
             Toast.makeText(this, "Invalid post ID", Toast.LENGTH_SHORT).show()
             finish()
             return
+        } else {
+            viewModel.setPostId(postId)
         }
 
         // Setup observer
@@ -37,7 +39,7 @@ class IdeDetailActivity : AppCompatActivity() {
         // Panggil data detail dengan pengambilan token melalui ViewModel
         viewModel.getUserToken { token ->
             if (!token.isNullOrEmpty()) {
-                viewModel.fetchDetailIde(postId)
+                viewModel.fetchDetailIde()
                 viewModel.fetchUserRole(token)
             } else {
                 Toast.makeText(this, "Failed to retrieve user token", Toast.LENGTH_SHORT).show()
@@ -62,6 +64,7 @@ class IdeDetailActivity : AppCompatActivity() {
             binding.btnJoin.isEnabled = !isLoading // Menonaktifkan tombol saat loading
         }
 
+
         // Observer untuk error message
         viewModel.error.observe(this) { errorMessage ->
             if (!errorMessage.isNullOrEmpty()) {
@@ -77,6 +80,29 @@ class IdeDetailActivity : AppCompatActivity() {
                 binding.btnJoin.visibility = View.VISIBLE
             }
         }
+
+        // Observer untuk tombol join
+        binding.btnJoin.setOnClickListener {
+            viewModel.getUserToken { token ->
+                if (!token.isNullOrEmpty()) {
+                    viewModel.joinTeam(token)
+                } else {
+                    Toast.makeText(this, "Failed to retrieve user token", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+        }
+
+        viewModel.resultJoin.observe(this) { response ->
+            if (response != null) {
+                if (response.error == false) {
+                    Toast.makeText(this, "Berhasil bergabung", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "Gagal bergabung", Toast.LENGTH_SHORT).show()
+                }
+
+            }
+        }
     }
 
     private fun populateDetail(detailData: DetaiIdeData) {
@@ -87,7 +113,8 @@ class IdeDetailActivity : AppCompatActivity() {
         binding.summaryContent.text = detailData.summary ?: getString(R.string.no_summary)
 
         // Menampilkan peran yang dibutuhkan
-        binding.neededRole1.text = detailData.neededRole?.getOrNull(0) ?: getString(R.string.no_roles_needed)
+        binding.neededRole1.text =
+            detailData.neededRole?.getOrNull(0) ?: getString(R.string.no_roles_needed)
         binding.neededRole2.text = detailData.neededRole?.getOrNull(1) ?: ""
 
         // Menampilkan informasi founder
@@ -97,11 +124,8 @@ class IdeDetailActivity : AppCompatActivity() {
         // Menampilkan gambar founder menggunakan Glide
         val founderImageUrl = userProfile?.profilePic
         if (!founderImageUrl.isNullOrEmpty()) {
-            Glide.with(this)
-                .load(founderImageUrl)
-                .placeholder(R.drawable.ic_profile_24)
-                .circleCrop()
-                .into(binding.founderImage)
+            Glide.with(this).load(founderImageUrl).placeholder(R.drawable.ic_profile_24)
+                .circleCrop().into(binding.founderImage)
         } else {
             binding.founderImage.setImageResource(R.drawable.ic_profile_24)
         }
@@ -109,9 +133,7 @@ class IdeDetailActivity : AppCompatActivity() {
         // Menampilkan gambar ide menggunakan Glide
         val ideaImageUrl = detailData.image
         if (!ideaImageUrl.isNullOrEmpty()) {
-            Glide.with(this)
-                .load(ideaImageUrl)
-                .placeholder(R.drawable.ic_image_24)
+            Glide.with(this).load(ideaImageUrl).placeholder(R.drawable.ic_image_24)
                 .into(binding.ideaImage)
         } else {
             binding.ideaImage.setImageResource(R.drawable.ic_image_24)

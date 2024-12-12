@@ -8,12 +8,19 @@ import com.dicoding.foundup.data.pref.UserPreference
 import com.dicoding.foundup.data.remote.ApiConfig
 import com.dicoding.foundup.data.remote.ApiService
 import com.dicoding.foundup.data.response.DetaiIdeData
+import com.dicoding.foundup.data.response.JoinIdeResponse
 import kotlinx.coroutines.launch
 
 class IdeDetailViewModel(application: Application) : AndroidViewModel(application) {
 
     private val userRepository: UserRepository
     private val apiService: ApiService = ApiConfig.getApiService()
+
+    private val _resultJoin = MutableLiveData<JoinIdeResponse>()
+    val resultJoin: LiveData<JoinIdeResponse> get() = _resultJoin
+
+    private val _postId = MutableLiveData<Int>()
+    val postId: LiveData<Int> get() = _postId
 
     private val _ideDetail = MutableLiveData<DetaiIdeData?>()
     val ideDetail: LiveData<DetaiIdeData?> get() = _ideDetail
@@ -33,14 +40,33 @@ class IdeDetailViewModel(application: Application) : AndroidViewModel(applicatio
         userRepository = UserRepository(apiService, userPreference)
     }
 
-    fun fetchDetailIde(postId: Int) {
+    fun setPostId(postId: Int) {
+        _postId.value = postId
+    }
+
+    fun joinTeam(token: String) {
+        viewModelScope.launch {
+            try {
+                val response = apiService.joinTeam("Bearer $token", postId.value!!)
+                if (response.error == false) {
+                    _resultJoin.value = response
+                } else {
+                    _resultJoin.value = JoinIdeResponse(true, "Failed to join team")
+                }
+            } catch (e: Exception) {
+            }
+
+        }
+    }
+
+    fun fetchDetailIde() {
         _loading.value = true
 
         getUserToken { token ->
             if (!token.isNullOrEmpty()) {
                 viewModelScope.launch {
                     try {
-                        val response = apiService.getDetailIde("Bearer $token", postId)
+                        val response = apiService.getDetailIde("Bearer $token", postId.value!!)
                         if (response.error == false) {
                             _ideDetail.value = response.data
                         } else {

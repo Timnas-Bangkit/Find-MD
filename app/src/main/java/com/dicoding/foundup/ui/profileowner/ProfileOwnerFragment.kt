@@ -15,6 +15,7 @@ import com.dicoding.foundup.databinding.FragmentProfileBinding
 import com.dicoding.foundup.databinding.FragmentProfileOwnerBinding
 import com.dicoding.foundup.di.Injection
 import com.dicoding.foundup.ui.akun.login.LoginActivity
+import com.dicoding.foundup.ui.candidate.CandidateActivity
 import kotlinx.coroutines.launch
 
 class ProfileOwnerFragment : Fragment() {
@@ -27,6 +28,7 @@ class ProfileOwnerFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         val profileViewModel =
             ViewModelProvider(this).get(ProfileOwnerViewModel::class.java)
 

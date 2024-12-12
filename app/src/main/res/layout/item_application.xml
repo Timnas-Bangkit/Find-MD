@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
     app:cardCornerRadius="8dp"
+    android:background="@android:color/white"
     app:cardElevation="4dp">
 
     <LinearLayout
@@ -40,12 +41,12 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tvSubtitle"
+                android:id="@+id/tvRole"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/role"
                 android:textSize="14sp"
-                android:textColor="#808080" />
+                android:textColor="@color/black" />
         </LinearLayout>
 
         <!-- Status Badge -->

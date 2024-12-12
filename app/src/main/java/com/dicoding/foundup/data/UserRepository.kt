@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.dicoding.foundup.data.pref.UserPreference
 import com.dicoding.foundup.data.remote.ApiService
+import com.dicoding.foundup.data.response.CVProfileResponse
 import com.dicoding.foundup.data.response.DataItem
 import com.dicoding.foundup.data.response.DataRole
 import com.dicoding.foundup.data.response.LoginResponse
@@ -129,6 +130,17 @@ class UserRepository(
             apiService.roleUser("Bearer $token", dataRole)
         } catch (e: Exception) {
             null // Kembalikan null jika terjadi error
+        }
+    }
+
+    suspend fun getUserProfile(token: String): CVProfileResponse {
+        return try {
+            apiService.getUserProfile("Bearer $token")
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            throw Exception("HTTP Error: ${e.code()}, ${errorBody ?: e.message}")
+        } catch (e: Exception) {
+            throw Exception("Unexpected error: ${e.message}", e)
         }
     }
 

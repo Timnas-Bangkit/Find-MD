@@ -2,9 +2,12 @@ package com.dicoding.foundup.data.remote
 
 import com.dicoding.foundup.data.response.AddIdeResponse
 import com.dicoding.foundup.data.response.AllUserResponse
+import com.dicoding.foundup.data.response.CVProfileResponse
+import com.dicoding.foundup.data.response.CandidateResponse
 import com.dicoding.foundup.data.response.DataRole
 import com.dicoding.foundup.data.response.DetaiIdeData
 import com.dicoding.foundup.data.response.DetaiIdeResponse
+import com.dicoding.foundup.data.response.JoinIdeResponse
 import com.dicoding.foundup.data.response.LoginResponse
 import com.dicoding.foundup.data.response.ProfileResponse
 import com.dicoding.foundup.data.response.RegisterResponse
@@ -72,7 +75,7 @@ interface ApiService {
         @Part("neededRole") neededRole2: RequestBody
     ): AddIdeResponse
 
-    // fungsi untuk mendapatka detail post (berdasarkan id)
+    // fungsi untuk mendapatkan detail post (berdasarkan id)
     @GET("api/posts/{id}")
     suspend fun getDetailIde(
         @Header("Authorization") token: String,
@@ -87,4 +90,23 @@ interface ApiService {
         @Part cv: MultipartBody.Part
     ): UploadCVResponse
 
+    // fungsi untuk mengirimkan data (join postingan)
+    @POST("api/posts/{id}/apply")
+    suspend fun joinTeam(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int
+    ): JoinIdeResponse
+
+    // fungsi untuk mendapatkan data (list yang join postingan)
+    @GET("api/posts/{post_id}/candidates")
+    suspend fun getCandidate(
+        @Header("Authorization") token: String,
+        @Path("post_id") postId: Int
+    ): CandidateResponse
+
+    // fungsi untuk mendapatkan data user berdasarka cv
+    @GET("api/users/cv/me")
+    suspend fun getUserProfile(
+        @Header("Authorization") token: String
+    ): CVProfileResponse
 }

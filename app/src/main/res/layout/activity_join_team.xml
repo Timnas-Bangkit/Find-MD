@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:padding="24dp"
-    android:background="@color/purple_200"
+    android:background="@color/white"
     tools:context=".ui.ideDetail.JoinTeamActivity">
 
     <!-- Header Text -->
@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:text="@string/Tittle_join_team"
         android:textSize="24sp"
-        android:textColor="@android:color/white"
+        android:textColor="@color/medium_purple"
         android:textStyle="bold"
         android:layout_marginBottom="8dp"
         android:gravity="center" />
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:text="@string/text_body_join_team"
         android:textSize="16sp"
-        android:textColor="@android:color/white"
+        android:textColor="@color/medium_purple"
         android:gravity="center"
         android:layout_marginBottom="16dp"
         android:padding="16dp" />
@@ -39,16 +39,16 @@
     <ImageView
         android:id="@+id/img_illustration"
         android:layout_width="300dp"
-    android:layout_height="300dp"
-    android:src="@drawable/ic_illustration"
-    android:layout_marginBottom="32dp"
-    android:contentDescription="@string/illustration" />
+        android:layout_height="300dp"
+        android:src="@drawable/ic_illustration"
+        android:layout_marginBottom="32dp"
+        android:contentDescription="@string/illustration" />
 
     <!-- See My Application Button -->
     <Button
         android:id="@+id/btn_see_my_application"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="306dp"
+        android:layout_height="54dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/rounded_button"
         android:text="@string/see_my_application"
@@ -58,8 +58,8 @@
     <!-- Back Button -->
     <Button
         android:id="@+id/btn_back"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="306dp"
+        android:layout_height="54dp"
         android:background="@drawable/rounded_button"
         android:text="@string/back"
         android:textColor="@android:color/white"

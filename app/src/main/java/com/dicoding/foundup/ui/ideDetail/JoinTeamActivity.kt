@@ -3,13 +3,11 @@ package com.dicoding.foundup.ui.ideDetail
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.dicoding.foundup.R
 import com.dicoding.foundup.ui.home.HomeFragment
-import com.dicoding.foundup.ui.myaplication.MyAplicationActivity
+import com.dicoding.foundup.ui.main.MainActivity
+import com.dicoding.foundup.ui.myaplication.MyApplicationActivity
 
 class JoinTeamActivity : AppCompatActivity() {
 
@@ -20,16 +18,18 @@ class JoinTeamActivity : AppCompatActivity() {
         // Button "See My Application"
         val btnSeeMyApplication: Button = findViewById(R.id.btn_see_my_application)
         btnSeeMyApplication.setOnClickListener {
-            val intent = Intent(this@JoinTeamActivity, MyAplicationActivity::class.java)
+            val intent = Intent(this@JoinTeamActivity, MyApplicationActivity::class.java)
             startActivity(intent)
         }
 
         // Button "Back"
         val btnBack: Button = findViewById(R.id.btn_back)
         btnBack.setOnClickListener {
-            val intent = Intent(this@JoinTeamActivity, HomeFragment::class.java)
+            val intent = Intent(this@JoinTeamActivity, MainActivity::class.java)
+            intent.putExtra("navigateTo", "HomeFragment")
             startActivity(intent)
             finish()
         }
+
     }
 }

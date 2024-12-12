@@ -1,4 +1,4 @@
-package com.dicoding.foundup.ui.myaplication
+package com.dicoding.foundup.ui.myidea
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -7,10 +7,10 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.dicoding.foundup.R
 
-class MyAplicationActivity : AppCompatActivity() {
+class MyIdeaActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_my_aplication)
+        setContentView(R.layout.activity_my_idea)
+
     }
 }

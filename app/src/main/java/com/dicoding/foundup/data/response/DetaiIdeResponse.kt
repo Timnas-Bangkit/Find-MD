@@ -26,7 +26,7 @@ data class DetaiIdeUser(
 	val id: Int? = null,
 
 	@field:SerializedName("user_profile")
-	val userProfile: UserProfile? = null,
+	val userProfile: DetaiIdeUserProfile? = null,
 
 	@field:SerializedName("email")
 	val email: String? = null,
@@ -68,7 +68,7 @@ data class DetaiIdeData(
 	val title: String? = null,
 
 	@field:SerializedName("user")
-	val user: User? = null,
+	val user: DetaiIdeUser? = null,
 
 	@field:SerializedName("neededRole")
 	val neededRole: List<String?>? = null,
