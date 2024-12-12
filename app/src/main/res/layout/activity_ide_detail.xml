@@ -126,7 +126,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="16dp"
                 android:paddingBottom="4dp"
-                android:text="Summary"
+                android:text="@string/summary_title"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -136,7 +136,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:text="This is a brief summary of the idea."
+                android:text="@string/summary_text"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
@@ -145,7 +145,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="4dp"
-                android:text="Needed Roles"
+                android:text="@string/need_role"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -155,7 +155,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
-                android:text="- Role 1: Developer"
+                android:text="@string/role1"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
@@ -164,7 +164,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:text="- Role 2: Designer"
+                android:text="@string/role2"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
@@ -174,7 +174,8 @@
                 android:layout_height="48dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="16dp"
-                android:text="@string/btn_join" />
+                android:text="@string/btn_join"
+                android:enabled="true"/>
         </LinearLayout>
     </ScrollView>
 

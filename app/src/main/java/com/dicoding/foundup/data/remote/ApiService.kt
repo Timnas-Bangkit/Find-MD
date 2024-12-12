@@ -107,8 +107,7 @@ interface ApiService {
 
     @GET("api/users/me/applied-ideas")
     suspend fun getApplication(
-        @Header("Authorization") token: String,
-        @Path("post_id") postId: Int
+        @Header("Authorization") token: String
     ): ApplicationResponse
 
     // fungsi untuk mendapatkan data user berdasarka cv

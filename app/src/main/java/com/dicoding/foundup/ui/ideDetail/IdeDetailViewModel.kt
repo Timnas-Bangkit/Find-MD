@@ -1,7 +1,6 @@
 package com.dicoding.foundup.ui.ideDetail
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.*
 import com.dicoding.foundup.data.UserRepository
 import com.dicoding.foundup.data.pref.UserPreference
@@ -34,6 +33,9 @@ class IdeDetailViewModel(application: Application) : AndroidViewModel(applicatio
     private val _userRole = MutableLiveData<String?>()
     val userRole: LiveData<String?> get() = _userRole
 
+    private val _userHasJoined = MutableLiveData<Boolean>()
+    val userHasJoined: LiveData<Boolean> get() = _userHasJoined
+
     init {
         val context = getApplication<Application>().applicationContext
         val userPreference = UserPreference.getInstance(context)
@@ -54,8 +56,8 @@ class IdeDetailViewModel(application: Application) : AndroidViewModel(applicatio
                     _resultJoin.value = JoinIdeResponse(true, "Failed to join team")
                 }
             } catch (e: Exception) {
+                _error.value = "Error joining team: ${e.localizedMessage}"
             }
-
         }
     }
 
@@ -85,6 +87,18 @@ class IdeDetailViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
+    fun checkIfUserJoined(token: String) {
+        viewModelScope.launch {
+            try {
+                val response = apiService.getApplication("Bearer $token")
+                val joined = response.data?.applications?.any { it.post?.id == postId.value } == true
+                _userHasJoined.value = joined
+            } catch (e: Exception) {
+                _error.value = "Failed to check join status: ${e.localizedMessage}"
+            }
+        }
+    }
+
     fun fetchUserRole(token: String) {
         viewModelScope.launch {
             try {
@@ -99,9 +113,9 @@ class IdeDetailViewModel(application: Application) : AndroidViewModel(applicatio
     suspend fun getUserRole(token: String): String? {
         return try {
             val roleResponse = userRepository.getUserRole(token)
-            roleResponse?.data?.role // Mengembalikan role, bisa null jika belum dipilih
+            roleResponse?.data?.role
         } catch (e: Exception) {
-            null // Jika terjadi kesalahan, anggap role belum dipilih
+            null
         }
     }
 

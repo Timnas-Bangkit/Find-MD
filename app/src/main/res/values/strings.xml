@@ -103,5 +103,12 @@
     <string name="title_owner_profile">Owner Profile</string>
     <string name="title_techworker_profile">Techworker Profile</string>
     <string name="description_application">Description</string>
+    <string name="role2">- Role 2: Designer</string>
+    <string name="role1">- Role 1: Developer</string>
+    <string name="need_role">Needed Roles</string>
+    <string name="summary_text">This is a brief summary of the idea.</string>
+    <string name="summary_title">Summary</string>
+    <string name="already_joined">Already Joined</string>
+    <string name="join">Join Team</string>
 
 </resources>

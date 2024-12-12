@@ -43,7 +43,7 @@ class MyApplicationViewModel (application: Application) : AndroidViewModel(appli
             if (!token.isNullOrEmpty()) {
                 viewModelScope.launch {
                     try {
-                        val response = apiService.getApplication("Bearer $token", postId.value!!)
+                        val response = apiService.getApplication("Bearer $token")
                         if (response.error == false) {
                             _application.value = response
                         } else {
