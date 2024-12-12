@@ -5,9 +5,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bumptech.glide.Glide.init
 import com.dicoding.foundup.data.UserRepository
 import com.dicoding.foundup.data.pref.UserPreference
 import com.dicoding.foundup.data.remote.ApiConfig
@@ -15,7 +13,7 @@ import com.dicoding.foundup.data.remote.ApiService
 import com.dicoding.foundup.data.response.CandidateResponse
 import kotlinx.coroutines.launch
 
-class CandidateViewModel (application: Application) : AndroidViewModel(application){
+class CandidateViewModel(application: Application) : AndroidViewModel(application) {
 
     private val apiService: ApiService = ApiConfig.getApiService()
     private val userRepository: UserRepository
@@ -23,8 +21,8 @@ class CandidateViewModel (application: Application) : AndroidViewModel(applicati
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> get() = _loading
 
-    private val _postId = MutableLiveData<Int>()
-    val postId: LiveData<Int> get() = _postId
+    private val _postIds = MutableLiveData<IntArray>()  // Mengubah menjadi IntArray untuk menampung lebih dari satu ID
+    val postIds: LiveData<IntArray> get() = _postIds
 
     private val _candidates = MutableLiveData<CandidateResponse>()
     val candidates: LiveData<CandidateResponse> = _candidates
@@ -35,21 +33,27 @@ class CandidateViewModel (application: Application) : AndroidViewModel(applicati
         userRepository = UserRepository(apiService, userPreference)
     }
 
-    fun setPostId(postId: Int) {
-        _postId.value = postId
+    fun setPostIds(ids: IntArray) {
+        _postIds.value = ids
     }
 
     fun getCandidate() {
         getUserToken { token ->
-            if (!token.isNullOrEmpty()) {
+            if (!token.isNullOrEmpty() && _postIds.value != null) {
                 viewModelScope.launch {
                     try {
-                        val response = apiService.getCandidate("Bearer $token", postId.value!!)
-                        Log.d("CandidateViewModel", "Response: ${response.toString()}")
-                        if (response.error == false) {
-                            _candidates.value = response
-                        } else {
-                            _candidates.value = CandidateResponse(null, true)
+                        // Memproses semua ID yang ada dalam _postIds
+                        val postIdList = _postIds.value!!
+                        for (postId in postIdList) {
+                            val response = apiService.getCandidate("Bearer $token", postId)
+                            Log.d("CandidateViewModel", "Response for POST_ID $postId: ${response.toString()}")
+                            if (response.error == false) {
+                                // Update daftar kandidat dengan data yang diterima
+                                // Anda bisa menggabungkan hasil atau menyimpan dalam daftar jika perlu
+                                _candidates.value = response
+                            } else {
+                                _candidates.value = CandidateResponse(null, true)
+                            }
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()

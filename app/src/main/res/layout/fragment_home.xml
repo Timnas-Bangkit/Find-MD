@@ -83,19 +83,19 @@
                 android:layout_marginEnd="8dp" />
 
             <Button
-                android:id="@+id/buttonMusic"
+                android:id="@+id/buttonEducation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/music"
+                android:text="@string/education"
                 android:backgroundTint="@color/purple_200"
                 android:textColor="@android:color/black"
                 android:layout_marginEnd="8dp" />
 
             <Button
-                android:id="@+id/buttonTech"
+                android:id="@+id/buttonFinance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/tech"
+                android:text="@string/finance"
                 android:backgroundTint="@color/purple_200"
                 android:textColor="@android:color/black"
                 android:layout_marginEnd="8dp" />

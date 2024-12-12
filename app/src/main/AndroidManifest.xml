@@ -23,6 +23,12 @@
         android:theme="@style/Theme.FoundUp"
         tools:targetApi="31">
         <activity
+            android:name=".ui.myidea.MyIdeaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.candidate.CandidateActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.myaplication.MyApplicationActivity"
             android:exported="false" />
         <activity
@@ -54,6 +60,9 @@
             android:exported="false" />
         <activity
             android:name=".ui.main.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.ideDetail.JoinTeamActivity"
             android:exported="false" />
     </application>
 

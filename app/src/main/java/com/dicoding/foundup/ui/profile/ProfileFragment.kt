@@ -19,6 +19,7 @@ import com.dicoding.foundup.databinding.FragmentProfileBinding
 import com.dicoding.foundup.di.Injection
 import com.dicoding.foundup.ui.ProfileViewModelFactory
 import com.dicoding.foundup.ui.akun.login.LoginActivity
+import com.dicoding.foundup.ui.candidate.CandidateActivity
 import com.dicoding.foundup.ui.myaplication.MyApplicationActivity
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -92,7 +93,8 @@ class ProfileFragment : Fragment() {
         // Tambahkan logika intent ke MyApplicationActivity
         binding.myApplicationButton.setOnClickListener {
             val intent = Intent(requireActivity(), MyApplicationActivity::class.java)
-            intent.putExtra("POST_ID", 14)
+            val postIds = intArrayOf(14, 13) // Mengirimkan dua ID
+            intent.putExtra("POST_ID", postIds)
             startActivity(intent)
         }
 

@@ -30,7 +30,7 @@ class MyApplicationActivity : AppCompatActivity() {
     }
 
     private fun bindInit() {
-        viewModel.getCandidate()
+        viewModel.fetchApplication()
     }
 
     private fun bindView() {
@@ -42,7 +42,7 @@ class MyApplicationActivity : AppCompatActivity() {
     }
 
     private fun bindObserver() {
-        viewModel.candidates.observe(this) {
+        viewModel.application.observe(this) {
             if (!it.error!!) {
                 applicationAdapter.setData(it.data!!.applications)
 

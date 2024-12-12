@@ -2,6 +2,7 @@ package com.dicoding.foundup.data.remote
 
 import com.dicoding.foundup.data.response.AddIdeResponse
 import com.dicoding.foundup.data.response.AllUserResponse
+import com.dicoding.foundup.data.response.ApplicationResponse
 import com.dicoding.foundup.data.response.CVProfileResponse
 import com.dicoding.foundup.data.response.CandidateResponse
 import com.dicoding.foundup.data.response.DataRole
@@ -104,9 +105,17 @@ interface ApiService {
         @Path("post_id") postId: Int
     ): CandidateResponse
 
+    @GET("api/users/me/applied-ideas")
+    suspend fun getApplication(
+        @Header("Authorization") token: String,
+        @Path("post_id") postId: Int
+    ): ApplicationResponse
+
     // fungsi untuk mendapatkan data user berdasarka cv
     @GET("api/users/cv/me")
     suspend fun getUserProfile(
         @Header("Authorization") token: String
     ): CVProfileResponse
+
+
 }

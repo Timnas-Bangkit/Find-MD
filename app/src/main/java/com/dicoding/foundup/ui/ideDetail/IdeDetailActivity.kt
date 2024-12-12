@@ -1,5 +1,6 @@
 package com.dicoding.foundup.ui.ideDetail
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -64,7 +65,6 @@ class IdeDetailActivity : AppCompatActivity() {
             binding.btnJoin.isEnabled = !isLoading // Menonaktifkan tombol saat loading
         }
 
-
         // Observer untuk error message
         viewModel.error.observe(this) { errorMessage ->
             if (!errorMessage.isNullOrEmpty()) {
@@ -97,10 +97,13 @@ class IdeDetailActivity : AppCompatActivity() {
             if (response != null) {
                 if (response.error == false) {
                     Toast.makeText(this, "Berhasil bergabung", Toast.LENGTH_SHORT).show()
+
+                    // Intent ke JoinTeamActivity jika berhasil bergabung
+                    val intent = Intent(this, JoinTeamActivity::class.java)
+                    startActivity(intent)
                 } else {
                     Toast.makeText(this, "Gagal bergabung", Toast.LENGTH_SHORT).show()
                 }
-
             }
         }
     }

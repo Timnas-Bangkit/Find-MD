@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.dicoding.foundup.data.UserRepository
-import com.dicoding.foundup.databinding.FragmentProfileBinding
 import com.dicoding.foundup.databinding.FragmentProfileOwnerBinding
 import com.dicoding.foundup.di.Injection
 import com.dicoding.foundup.ui.akun.login.LoginActivity
@@ -49,6 +48,14 @@ class ProfileOwnerFragment : Fragment() {
             handleLogout()
         }
 
+        // Tambahkan logika intent ke CandidateActivity
+        binding.listCandidateButton.setOnClickListener {
+            val intent = Intent(requireActivity(), CandidateActivity::class.java)
+            val postIds = intArrayOf(14, 13) // Mengirimkan dua ID
+            intent.putExtra("POST_ID", postIds)
+            startActivity(intent)
+        }
+
         return root
     }
 
@@ -72,11 +79,14 @@ class ProfileOwnerFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             userRepository.clearUserData()
 
-
             val intent = Intent(requireContext(), LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

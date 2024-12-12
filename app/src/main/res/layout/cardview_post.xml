@@ -99,7 +99,7 @@
                 android:layout_height="24dp"
                 android:src="@drawable/ic_thumb_up_24"
                 android:contentDescription="@string/content_description_like_icon"
-                android:tint="@color/purple_500"
+                android:tint="@color/gray"
                 tools:ignore="UseAppTint" />
 
             <TextView
@@ -109,7 +109,7 @@
                 android:layout_marginStart="4dp"
                 android:text="@string/likes_text"
                 android:textSize="14sp"
-                android:textColor="@color/black" />
+                android:textColor="@color/gray" />
         </LinearLayout>
     </LinearLayout>
 

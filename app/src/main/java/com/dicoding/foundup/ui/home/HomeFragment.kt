@@ -99,8 +99,8 @@ class HomeFragment : Fragment() {
 
     private fun setupCategoryButtons() {
         binding.buttonAll.setOnClickListener { filterByCategory("All") }
-        binding.buttonMusic.setOnClickListener { filterByCategory("Music") }
-        binding.buttonTech.setOnClickListener { filterByCategory("Tech") }
+        binding.buttonEducation.setOnClickListener { filterByCategory("Education") }
+        binding.buttonFinance.setOnClickListener { filterByCategory("Finance") }
         binding.buttonDesign.setOnClickListener { filterByCategory("Design") }
     }
 
@@ -118,8 +118,8 @@ class HomeFragment : Fragment() {
     private fun updateCategoryButtonState() {
         val buttons = listOf(
             binding.buttonAll,
-            binding.buttonMusic,
-            binding.buttonTech,
+            binding.buttonEducation,
+            binding.buttonFinance,
             binding.buttonDesign
         )
 
