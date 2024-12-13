@@ -82,6 +82,35 @@
                 android:contentDescription="@string/gmail" />
         </LinearLayout>
 
+        <!-- My Idea Menu -->
+        <LinearLayout
+            android:id="@+id/myIdeaButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingVertical="16dp"
+            android:background="@drawable/menu_background"
+            android:elevation="4dp"
+            android:layout_marginBottom="16dp"
+            android:paddingHorizontal="24dp">
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_my_idea"
+                android:layout_marginEnd="12dp" />
+
+            <TextView
+                android:id="@+id/myIdeaText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/my_idea"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
         <!-- List Candidate -->
         <LinearLayout
             android:id="@+id/listCandidateButton"

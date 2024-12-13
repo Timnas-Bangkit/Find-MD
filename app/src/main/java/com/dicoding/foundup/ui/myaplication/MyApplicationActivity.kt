@@ -48,9 +48,7 @@ class MyApplicationActivity : AppCompatActivity() {
 
             }
 
-
         }
-
 
     }
 }

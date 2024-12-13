@@ -11,13 +11,25 @@ data class CandidateResponse(
 	val error: Boolean? = null
 )
 
-data class ApplicationsItem(
+data class CandidateUser(
 
-	@field:SerializedName("user")
-	val user: CandidateUser? = null,
+	@field:SerializedName("cv")
+	val cv: CandidateCv? = null,
 
-	@field:SerializedName("status")
-	val status: String? = null
+	@field:SerializedName("id")
+	val id: Int? = null,
+
+	@field:SerializedName("user_profile")
+	val userProfile: CandidateProfile? = null
+)
+
+data class CandidateCv(
+
+	@field:SerializedName("score")
+	val score: Any? = null,
+
+	@field:SerializedName("jobRole")
+	val jobRole: String? = null
 )
 
 data class CandidateData(
@@ -38,13 +50,13 @@ data class CandidateData(
 	val applications: List<ApplicationsItem>
 )
 
-data class CandidateUser(
+data class ApplicationsItem(
 
-	@field:SerializedName("id")
-	val id: Int? = null,
+	@field:SerializedName("user")
+	val user: CandidateUser? = null,
 
-	@field:SerializedName("user_profile")
-	val userProfile: CandidateProfile? = null
+	@field:SerializedName("status")
+	val status: String? = null
 )
 
 data class CandidateProfile(

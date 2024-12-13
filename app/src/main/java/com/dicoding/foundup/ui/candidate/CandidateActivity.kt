@@ -6,7 +6,6 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dicoding.foundup.R
 import com.dicoding.foundup.adapter.CandidateAdapter
 import com.dicoding.foundup.databinding.ActivityCandidateBinding
 

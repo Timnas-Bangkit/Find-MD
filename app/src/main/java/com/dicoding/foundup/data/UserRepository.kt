@@ -13,7 +13,6 @@ import com.dicoding.foundup.data.response.ProfileResponse
 import com.dicoding.foundup.data.response.RegisterResponse
 import com.dicoding.foundup.data.response.RoleResponse
 import com.dicoding.foundup.data.response.UploadCVResponse
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import okhttp3.MultipartBody
 import retrofit2.HttpException

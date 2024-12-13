@@ -28,14 +28,21 @@ class CandidateAdapter : RecyclerView.Adapter<CandidateAdapter.MyViewHolder>() {
     override fun getItemCount(): Int = filteredList.size
 
     fun setData(newList: List<ApplicationsItem>) {
-        val diffCallback = PostDiffCallback(postList, newList)
+        // Mengurutkan berdasarkan score secara descending (score tertinggi di atas)
+        val sortedList = newList.sortedByDescending {
+            (it.user?.cv?.score as? Number)?.toFloat() ?: 0f
+        }
+
+        val diffCallback = PostDiffCallback(postList, sortedList)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
         postList.clear()
-        postList.addAll(newList)
+        postList.addAll(sortedList)
         filteredList.clear()
-        filteredList.addAll(newList)
+        filteredList.addAll(sortedList)
         diffResult.dispatchUpdatesTo(this)
     }
+
+
 
     class MyViewHolder(private val binding: ItemCandidateBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -45,6 +52,7 @@ class CandidateAdapter : RecyclerView.Adapter<CandidateAdapter.MyViewHolder>() {
                 // Mengisi data profil
                 tvCandidateName.text = item.user?.userProfile?.name ?: "Unknown User"
                 tvPosition.text
+                tvScore.text = "Score: ${item.user?.cv?.score ?: "N/A"}"
                 tvStatus.text = item.status ?: "Pending"
 
                 Glide.with(itemView.context)

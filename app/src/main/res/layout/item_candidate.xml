@@ -61,6 +61,17 @@
                     android:textSize="14sp"
                     android:textColor="@color/gray"
                     tools:text="UI/UX Designer" />
+
+                <TextView
+                    android:id="@+id/tvScore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/score"
+                    android:textSize="16sp"
+                    android:gravity="center"
+
+                    />
+
             </LinearLayout>
         </LinearLayout>
 

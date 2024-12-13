@@ -1,3 +1,4 @@
+// ProfileViewModel
 package com.dicoding.foundup.ui.profile
 
 import androidx.lifecycle.LiveData
@@ -5,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dicoding.foundup.data.UserRepository
-import com.dicoding.foundup.data.response.UserData
+import com.dicoding.foundup.data.response.DataCVUser
 import com.dicoding.foundup.data.util.CustomResult
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
@@ -21,8 +22,8 @@ class ProfileViewModel(private val userRepository: UserRepository) : ViewModel()
     private val _logoutStatus = MutableLiveData<Boolean>()
     val logoutStatus: LiveData<Boolean> = _logoutStatus
 
-    private val _userProfile = MutableLiveData<UserData?>()
-    val userProfile: LiveData<UserData?> = _userProfile
+    private val _userProfile = MutableLiveData<DataCVUser?>()
+    val userProfile: LiveData<DataCVUser?> = _userProfile
 
     fun fetchUserToken() {
         viewModelScope.launch {
@@ -47,7 +48,6 @@ class ProfileViewModel(private val userRepository: UserRepository) : ViewModel()
         }
     }
 
-
     fun uploadCV(file: MultipartBody.Part) {
         _uploadStatus.value = CustomResult.Loading
         viewModelScope.launch {
@@ -65,7 +65,9 @@ class ProfileViewModel(private val userRepository: UserRepository) : ViewModel()
         }
     }
 
-
+    fun isCvUploaded(): Boolean {
+        return _userProfile.value?.cv != null
+    }
 
     fun clearUserDataAndLogout() {
         viewModelScope.launch {

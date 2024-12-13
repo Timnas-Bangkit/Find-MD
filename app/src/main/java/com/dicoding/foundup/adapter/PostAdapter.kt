@@ -13,6 +13,8 @@ import com.dicoding.foundup.databinding.CardviewPostBinding
 import android.widget.Filter
 import android.widget.Filterable
 import com.dicoding.foundup.ui.ideDetail.IdeDetailActivity
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class PostAdapter : RecyclerView.Adapter<PostAdapter.MyViewHolder>(), Filterable {
 
@@ -35,7 +37,6 @@ class PostAdapter : RecyclerView.Adapter<PostAdapter.MyViewHolder>(), Filterable
             it.context.startActivity(intent)
         }
     }
-
 
     override fun getItemCount(): Int = filteredList.size
 
@@ -70,7 +71,6 @@ class PostAdapter : RecyclerView.Adapter<PostAdapter.MyViewHolder>(), Filterable
                 return filterResults
             }
 
-
             @SuppressLint("NotifyDataSetChanged")
             @Suppress("UNCHECKED_CAST")
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
@@ -89,16 +89,33 @@ class PostAdapter : RecyclerView.Adapter<PostAdapter.MyViewHolder>(), Filterable
             binding.apply {
                 // Mengisi data profil
                 profileName.text = item.user?.userProfile?.name ?: "Unknown User"
-                profileTime.text = item.createdAt ?: "Unknown Time"
 
-                Glide.with(itemView.context)
-                    .load(item.user?.userProfile?.profilePic ?: R.drawable.ic_profile_24) // Placeholder jika gambar profil kosong
-                    .circleCrop()
-                    .into(profileIcon)
+                // Format createdAt date
+                item.createdAt?.let { dateString ->
+                    val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+                    val date = inputFormat.parse(dateString)
 
+                    val formattedDate = date?.let {
+                        val outputFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+                        outputFormat.format(it)
+                    } ?: "Invalid Date"  // Default if parsing fails
+
+                    profileTime.text = formattedDate
+                } ?: run {
+                    profileTime.text = "Unknown Time"
+                }
+
+                // Set title and description
                 titleText.text = item.title ?: "No Title"
                 descriptionText.text = item.description ?: "No Description"
 
+                // Load profile image with Glide
+                Glide.with(itemView.context)
+                    .load(item.user?.userProfile?.profilePic ?: R.drawable.ic_profile_24) // Placeholder if profile picture is empty
+                    .circleCrop()
+                    .into(profileIcon)
+
+                // Load event image with Glide
                 Glide.with(itemView.context)
                     .load(item.image)
                     .placeholder(R.drawable.ic_image_24)

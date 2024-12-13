@@ -13,13 +13,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.dicoding.foundup.R
-import com.dicoding.foundup.data.response.UserData
+import com.dicoding.foundup.data.response.DataCVUser
 import com.dicoding.foundup.data.util.CustomResult
 import com.dicoding.foundup.databinding.FragmentProfileBinding
 import com.dicoding.foundup.di.Injection
 import com.dicoding.foundup.ui.ProfileViewModelFactory
 import com.dicoding.foundup.ui.akun.login.LoginActivity
-import com.dicoding.foundup.ui.candidate.CandidateActivity
 import com.dicoding.foundup.ui.myaplication.MyApplicationActivity
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -32,6 +31,9 @@ class ProfileFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: ProfileViewModel
     private var progressDialog: ProgressDialog? = null
+
+    private var isAlertShown = false
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,12 +56,20 @@ class ProfileFragment : Fragment() {
 
         viewModel.userProfile.observe(viewLifecycleOwner) { userProfile ->
             if (userProfile == null) {
-                showProgressDialog("Memuat Profil", "Harap tunggu...")
+                dismissProgressDialog()
+                binding.profileName.text = getString(R.string.default_username)
+                binding.profileRole.text = getString(R.string.unknown_role)
+                binding.profileImage.setImageResource(R.drawable.ic_profile)
+
+                // Berikan peringatan hanya jika belum pernah upload cv
+                isAlertShown = true
+                showAlert("Peringatan", "Anda harus mengunggah CV untuk melanjutkan.")
             } else {
                 dismissProgressDialog()
                 profileUser(userProfile)
             }
         }
+
 
         viewModel.uploadStatus.observe(viewLifecycleOwner) { result ->
             when (result) {
@@ -90,22 +100,32 @@ class ProfileFragment : Fragment() {
         binding.uploadCVButton.setOnClickListener { pickFile() }
         binding.logoutButton.setOnClickListener { showLogoutConfirmation() }
 
-        // Tambahkan logika intent ke MyApplicationActivity
+        // Logika intent ke MyApplicationActivity
         binding.myApplicationButton.setOnClickListener {
-            val intent = Intent(requireActivity(), MyApplicationActivity::class.java)
-            val postIds = intArrayOf(14, 13) // Mengirimkan dua ID
-            intent.putExtra("POST_ID", postIds)
-            startActivity(intent)
+            if (!viewModel.isCvUploaded()) {
+                // Peringatan jika CV belum diunggah
+                showAlert("Peringatan", "Anda harus mengunggah CV terlebih dahulu sebelum dapat mengakses fitur ini.")
+            } else {
+                val intent = Intent(requireActivity(), MyApplicationActivity::class.java)
+                val postIds = intArrayOf(14, 13) // Mengirimkan dua ID
+                intent.putExtra("POST_ID", postIds)
+                startActivity(intent)
+            }
         }
 
         return root
     }
 
-    private fun profileUser(userData: UserData) {
-        binding.profileName.text = userData.username
-        binding.profileRole.text = userData.cv?.jobRole ?: getString(R.string.unknown_role)
+    private fun profileUser(dataCVUser: DataCVUser) {
+        binding.profileName.text = dataCVUser.username
+        binding.profileRole.text = dataCVUser.cv?.jobRole ?: getString(R.string.unknown_role)
 
-        val profileImageUrl = userData.cv?.certifications?.firstOrNull()
+        // Periksa apakah CV sudah diunggah
+        if (dataCVUser.cv == null) {
+            showAlert("Peringatan", "Anda harus mengunggah CV terlebih dahulu.")
+        }
+
+        val profileImageUrl = dataCVUser.cv?.certifications?.firstOrNull()
         if (!profileImageUrl.isNullOrEmpty()) {
             Glide.with(this)
                 .load(profileImageUrl)
@@ -116,6 +136,7 @@ class ProfileFragment : Fragment() {
             binding.profileImage.setImageResource(R.drawable.ic_profile)
         }
     }
+
 
     private fun pickFile() {
         filePickerLauncher.launch("application/pdf")

@@ -15,6 +15,7 @@ import com.dicoding.foundup.databinding.FragmentProfileOwnerBinding
 import com.dicoding.foundup.di.Injection
 import com.dicoding.foundup.ui.akun.login.LoginActivity
 import com.dicoding.foundup.ui.candidate.CandidateActivity
+import com.dicoding.foundup.ui.myidea.MyIdeaActivity
 import kotlinx.coroutines.launch
 
 class ProfileOwnerFragment : Fragment() {
@@ -43,15 +44,21 @@ class ProfileOwnerFragment : Fragment() {
             textView.text = it
         }
 
-        // Tambahkan logika logout
+        // Logika logout
         binding.logoutButton.setOnClickListener {
             handleLogout()
         }
 
-        // Tambahkan logika intent ke CandidateActivity
+        // Logika intent ke MyApplicationActivity
+        binding.myIdeaButton.setOnClickListener {
+            val intent = Intent(requireActivity(), MyIdeaActivity::class.java)
+            startActivity(intent)
+        }
+
+        // Logika intent ke CandidateActivity
         binding.listCandidateButton.setOnClickListener {
             val intent = Intent(requireActivity(), CandidateActivity::class.java)
-            val postIds = intArrayOf(14, 13) // Mengirimkan dua ID
+            val postIds = intArrayOf(14, 13)
             intent.putExtra("POST_ID", postIds)
             startActivity(intent)
         }

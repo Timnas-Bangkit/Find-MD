@@ -10,6 +10,7 @@ import com.dicoding.foundup.data.response.DetaiIdeData
 import com.dicoding.foundup.data.response.DetaiIdeResponse
 import com.dicoding.foundup.data.response.JoinIdeResponse
 import com.dicoding.foundup.data.response.LoginResponse
+import com.dicoding.foundup.data.response.MyPostResponse
 import com.dicoding.foundup.data.response.ProfileResponse
 import com.dicoding.foundup.data.response.RegisterResponse
 import com.dicoding.foundup.data.response.RoleResponse
@@ -105,10 +106,10 @@ interface ApiService {
         @Path("post_id") postId: Int
     ): CandidateResponse
 
+    // fungsi untuk mendapatkan data (list yang sudah join / applied)
     @GET("api/users/me/applied-ideas")
     suspend fun getApplication(
-        @Header("Authorization") token: String,
-        @Path("post_id") postId: Int
+        @Header("Authorization") token: String
     ): ApplicationResponse
 
     // fungsi untuk mendapatkan data user berdasarka cv
@@ -117,5 +118,10 @@ interface ApiService {
         @Header("Authorization") token: String
     ): CVProfileResponse
 
+    // fungsi untuk mendapatkan data (postigan sendiri)
+    @GET("api/posts/me")
+    suspend fun getPost(
+        @Header("Authorization") token: String
+    ): MyPostResponse
 
 }
