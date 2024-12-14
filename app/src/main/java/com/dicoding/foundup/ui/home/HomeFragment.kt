@@ -30,13 +30,14 @@ class HomeFragment : Fragment() {
         const val SUCCESS_ADD_IDEA = "success_add_idea"
     }
 
+
     private val homeViewModel: HomeViewModel by viewModels {
         HomeViewModelFactory(Injection.provideRepository(requireContext()))
     }
 
     private val postAdapter = PostAdapter()
 
-    private var selectedCategory: String = "All" // Default kategori awal
+    private var selectedCategory: String = "All"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -54,12 +55,19 @@ class HomeFragment : Fragment() {
         handleAddIdeaSuccess()
         observeUserToken()
 
+        // percobaan rekomendasi CV
+        homeViewModel.userData.observe(viewLifecycleOwner) { userData ->
+                homeViewModel.fetchRecommendedPosts()
+        }
+
+
         homeViewModel.userData.observe(viewLifecycleOwner) { userData ->
             postAdapter.setData(userData)
         }
 
         // Set default kategori ke "All" saat fragment pertama kali dibuka
         filterByCategory("All")
+
     }
 
     private fun setupRecyclerView() {

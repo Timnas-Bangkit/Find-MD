@@ -5,6 +5,7 @@ import com.dicoding.foundup.data.response.AllUserResponse
 import com.dicoding.foundup.data.response.ApplicationResponse
 import com.dicoding.foundup.data.response.CVProfileResponse
 import com.dicoding.foundup.data.response.CandidateResponse
+import com.dicoding.foundup.data.response.DataItem
 import com.dicoding.foundup.data.response.DataRole
 import com.dicoding.foundup.data.response.DetaiIdeResponse
 import com.dicoding.foundup.data.response.JoinIdeResponse
@@ -78,6 +79,14 @@ interface ApiService {
         @Part("neededRole") neededRole1: RequestBody,
         @Part("neededRole") neededRole2: RequestBody
     ): AddIdeResponse
+
+
+    // endpoint percobaan rekomendasi CV
+    @GET("api/posts/recommendation")
+    suspend fun getRecommendedPosts(
+        @Header("Authorization") token: String
+    ): List<DataItem>
+
 
     // fungsi untuk mendapatkan detail post (berdasarkan id)
     @GET("api/posts/{id}")

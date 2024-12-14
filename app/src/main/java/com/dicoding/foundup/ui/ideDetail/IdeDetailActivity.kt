@@ -88,16 +88,57 @@ class IdeDetailActivity : AppCompatActivity() {
             }
         }
 
+        viewModel.hasUploadedCV.observe(this) { hasCV ->
+            if (hasCV == true) {
+                viewModel.getUserToken { token ->
+                    if (!token.isNullOrEmpty() && viewModel.userHasJoined.value == false) {
+                        viewModel.joinTeam(token)
+                    } else {
+                        Toast.makeText(this, "You have already joined this team", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } else {
+                Toast.makeText(this, "Please upload your CV before joining the team", Toast.LENGTH_LONG).show()
+            }
+        }
+
+
         binding.btnJoin.setOnClickListener {
             viewModel.getUserToken { token ->
-                if (!token.isNullOrEmpty() && viewModel.userHasJoined.value == false) {
-                    viewModel.joinTeam(token)
+                if (!token.isNullOrEmpty()) {
+                    // Memastikan CV sudah dicek hanya sekali
+                    viewModel.checkIfUserUploadedCV(token) // Periksa apakah CV sudah diunggah
+                    viewModel.hasUploadedCV.observe(this) { hasUploadedCV ->
+                        if (hasUploadedCV != null) { // Pastikan status CV sudah didapat
+                            // Menghentikan observer untuk menghindari pemanggilan berulang
+                            viewModel.hasUploadedCV.removeObservers(this)
+
+                            if (hasUploadedCV) { // Jika CV sudah diunggah
+                                if (viewModel.userHasJoined.value == false) { // Periksa apakah belum bergabung
+                                    viewModel.joinTeam(token) // Gabung ke tim
+                                } else {
+                                    Toast.makeText(
+                                        this,
+                                        "You have already joined this team",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            } else { // CV belum diunggah
+                                Toast.makeText(
+                                    this,
+                                    "Please upload your CV before joining the team",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    }
                 } else {
-                    Toast.makeText(this, "You have already joined this team", Toast.LENGTH_SHORT)
-                        .show()
+                    Toast.makeText(this, "User token is missing", Toast.LENGTH_SHORT).show()
                 }
             }
         }
+
+
 
         binding.likeButton.setOnClickListener {
             viewModel.getUserToken { token ->

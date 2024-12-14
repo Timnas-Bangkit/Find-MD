@@ -116,6 +116,7 @@
     <string name="upload_cv_warning">Warning</string>
 
     <string name="score">Score :</string>
+    <string name="recommendation">CV recommend</string>
 
 
 </resources>

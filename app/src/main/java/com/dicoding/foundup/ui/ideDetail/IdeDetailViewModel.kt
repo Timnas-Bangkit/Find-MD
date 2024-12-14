@@ -36,11 +36,29 @@ class IdeDetailViewModel(application: Application) : AndroidViewModel(applicatio
     private val _userHasJoined = MutableLiveData<Boolean>()
     val userHasJoined: LiveData<Boolean> get() = _userHasJoined
 
+    private val _hasUploadedCV = MutableLiveData<Boolean>()
+    val hasUploadedCV: LiveData<Boolean> get() = _hasUploadedCV
+
+
     init {
         val context = getApplication<Application>().applicationContext
         val userPreference = UserPreference.getInstance(context)
         userRepository = UserRepository(apiService, userPreference)
     }
+
+    fun checkIfUserUploadedCV(token: String) {
+        viewModelScope.launch {
+            try {
+                val response = apiService.getUserProfile("Bearer $token")
+                val cvExists = response.data?.cv != null // Memeriksa apakah `cv` tidak null
+                _hasUploadedCV.value = cvExists
+            } catch (e: Exception) {
+                _error.value = "Failed to check CV status: ${e.localizedMessage}"
+                _hasUploadedCV.value = false
+            }
+        }
+    }
+
 
     fun setPostId(postId: Int) {
         _postId.value = postId

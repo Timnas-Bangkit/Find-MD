@@ -62,7 +62,7 @@ class ProfileFragment : Fragment() {
 
                 // Berikan peringatan hanya jika belum pernah upload cv
                 isAlertShown = true
-                showAlert("Peringatan", "Anda harus mengunggah CV untuk melanjutkan.")
+                showAlert("Peringatan", "Anda harus mengunggah CV terlebih dahulu. (Jika sudah, Abaikan saja pesan ini)")
             } else {
                 profileUser(userProfile)
             }
@@ -117,13 +117,14 @@ class ProfileFragment : Fragment() {
         return root
     }
 
+
     private fun profileUser(dataCVUser: DataCVUser) {
         binding.profileName.text = dataCVUser.username
         binding.profileRole.text = dataCVUser.cv?.jobRole ?: getString(R.string.unknown_role)
 
         // Periksa apakah CV sudah diunggah
         if (dataCVUser.cv == null) {
-            showAlert("Peringatan", "Anda harus mengunggah CV terlebih dahulu.")
+            showAlert("Peringatan", "Anda harus mengunggah CV terlebih dahulu. (Jika sudah, Abaikan saja pesan ini)")
         }
 
         val profileImageUrl = dataCVUser.cv?.certifications?.firstOrNull()
