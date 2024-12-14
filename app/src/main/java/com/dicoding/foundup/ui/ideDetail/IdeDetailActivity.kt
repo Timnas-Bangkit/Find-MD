@@ -39,7 +39,7 @@ class IdeDetailActivity : AppCompatActivity() {
             if (!token.isNullOrEmpty()) {
                 viewModel.fetchDetailIde()
                 viewModel.fetchUserRole(token)
-                viewModel.checkIfUserJoined(token) // Periksa apakah sudah bergabung
+                viewModel.checkIfUserJoined(token)
             } else {
                 Toast.makeText(this, "Failed to retrieve user token", Toast.LENGTH_SHORT).show()
                 finish()
@@ -81,12 +81,15 @@ class IdeDetailActivity : AppCompatActivity() {
 
 
         viewModel.userHasJoined.observe(this) { hasJoined ->
-            if (hasJoined == true) {
+            val role = viewModel.userRole.value
+
+            if (role == "techworker" && hasJoined == true) {
                 binding.btnJoin.text = getString(R.string.already_joined)
             } else {
                 binding.btnJoin.text = getString(R.string.join)
             }
         }
+
 
         binding.btnJoin.setOnClickListener {
             viewModel.getUserToken { token ->

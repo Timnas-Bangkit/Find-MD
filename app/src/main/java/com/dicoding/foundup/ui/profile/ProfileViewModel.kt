@@ -1,4 +1,3 @@
-// ProfileViewModel
 package com.dicoding.foundup.ui.profile
 
 import androidx.lifecycle.LiveData
@@ -8,7 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.dicoding.foundup.data.UserRepository
 import com.dicoding.foundup.data.response.DataCVUser
 import com.dicoding.foundup.data.util.CustomResult
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
 
 class ProfileViewModel(private val userRepository: UserRepository) : ViewModel() {
@@ -50,17 +51,21 @@ class ProfileViewModel(private val userRepository: UserRepository) : ViewModel()
 
     fun uploadCV(file: MultipartBody.Part) {
         _uploadStatus.value = CustomResult.Loading
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val token = _userToken.value ?: ""
                 val response = userRepository.uploadCV(token, file)
-                if (response.error == false) {
-                    _uploadStatus.value = CustomResult.Success("CV berhasil diunggah.")
-                } else {
-                    _uploadStatus.value = CustomResult.Failure(Exception("Gagal mengunggah CV."))
+                withContext(Dispatchers.Main) {
+                    if (response.error == false) {
+                        _uploadStatus.value = CustomResult.Success("CV berhasil diunggah.")
+                    } else {
+                        _uploadStatus.value = CustomResult.Failure(Exception("Gagal mengunggah CV."))
+                    }
                 }
             } catch (e: Exception) {
-                _uploadStatus.value = CustomResult.Failure(Exception("Terjadi kesalahan: ${e.message}", e))
+                withContext(Dispatchers.Main) {
+                    _uploadStatus.value = CustomResult.Failure(Exception("Terjadi kesalahan: ${e.message}", e))
+                }
             }
         }
     }

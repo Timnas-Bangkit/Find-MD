@@ -31,17 +31,17 @@ class UserPreference private constructor(context: Context) {
     }
 
     suspend fun saveUserToken(token: String?) {
-        Log.d("UserPreference", "Saving token: $token") // Log token sebelum disimpan
+        Log.d("UserPreference", "Saving token: $token")
         dataStore.edit { preferences ->
-            preferences[USER_TOKEN] = token.orEmpty()
+            preferences[USER_TOKEN] = token ?: ""
         }
     }
 
+
     val getUserToken: Flow<String?> = dataStore.data.map { preferences ->
-        val token = preferences[USER_TOKEN]
-        Log.d("UserPreference", "Retrieved token: $token") // Log token saat diambil
-        token
+        preferences[USER_TOKEN] // This will return null if no token is stored
     }
+
 
 
 

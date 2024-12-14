@@ -132,6 +132,18 @@ class UserRepository(
         }
     }
 
+    suspend fun getOwnerProfile(token: String): ProfileResponse {
+        return try {
+            apiService.getRole("Bearer $token")
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            throw Exception("HTTP Error: ${e.code()}, ${errorBody ?: e.message}")
+        } catch (e: Exception) {
+            throw Exception("Unexpected error: ${e.message}", e)
+        }
+    }
+
+
     suspend fun getUserProfile(token: String): CVProfileResponse {
         return try {
             apiService.getUserProfile("Bearer $token")
@@ -145,7 +157,15 @@ class UserRepository(
 
 
     suspend fun uploadCV(token: String, cv: MultipartBody.Part): UploadCVResponse {
-        return apiService.uploadCV("Bearer $token", cv)
+        return try {
+            apiService.uploadCV("Bearer $token", cv)
+        } catch (e: HttpException) {
+            // Tangani kesalahan HTTP
+            throw Exception("Upload failed: ${e.message()}")
+        } catch (e: Exception) {
+            // Tangani kesalahan lainnya
+            throw Exception("Unexpected error: ${e.message}")
+        }
     }
 
 

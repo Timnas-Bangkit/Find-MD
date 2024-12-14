@@ -1,6 +1,5 @@
 package com.dicoding.foundup.ui.profile
 
-import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -30,7 +29,6 @@ class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: ProfileViewModel
-    private var progressDialog: ProgressDialog? = null
 
     private var isAlertShown = false
 
@@ -46,6 +44,9 @@ class ProfileFragment : Fragment() {
         // Inisialisasi ViewModel
         val factory = ProfileViewModelFactory(Injection.provideRepository(requireContext()))
         viewModel = ViewModelProvider(this, factory)[ProfileViewModel::class.java]
+
+        // Memulai pengambilan token pengguna
+        viewModel.fetchUserToken()
 
         // Observasi data LiveData dari ViewModel
         viewModel.userToken.observe(viewLifecycleOwner) { token ->
@@ -67,7 +68,6 @@ class ProfileFragment : Fragment() {
                 profileUser(userProfile)
             }
         }
-
 
         viewModel.uploadStatus.observe(viewLifecycleOwner) { result ->
             when (result) {
@@ -93,9 +93,6 @@ class ProfileFragment : Fragment() {
         viewModel.logoutStatus.observe(viewLifecycleOwner) { isLoggedOut ->
             if (isLoggedOut) navigateToLogin()
         }
-
-        // Memulai pengambilan token pengguna
-        viewModel.fetchUserToken()
 
         // Setup event listener
         binding.uploadCVButton.setOnClickListener { pickFile() }
@@ -138,7 +135,6 @@ class ProfileFragment : Fragment() {
         }
     }
 
-
     private fun pickFile() {
         filePickerLauncher.launch("application/pdf")
     }
@@ -155,7 +151,6 @@ class ProfileFragment : Fragment() {
                 }
             }
         }
-
 
     private fun uriToMultipartBodyPart(uri: Uri): MultipartBody.Part {
         val file = uriToFile(uri)
@@ -177,7 +172,6 @@ class ProfileFragment : Fragment() {
         }
         return tempFile
     }
-
 
     private fun showAlert(title: String, message: String?) {
         AlertDialog.Builder(requireContext())

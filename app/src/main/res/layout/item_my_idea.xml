@@ -39,6 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
+            android:maxLines="5"
             android:text="@string/description_text"
             android:textSize="14sp"
             android:textColor="@android:color/black" />

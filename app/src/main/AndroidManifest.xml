@@ -29,6 +29,9 @@
             android:name=".ui.candidate.CandidateActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.candidate.listcandidate.ListCandidateActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.myaplication.MyApplicationActivity"
             android:exported="false" />
         <activity

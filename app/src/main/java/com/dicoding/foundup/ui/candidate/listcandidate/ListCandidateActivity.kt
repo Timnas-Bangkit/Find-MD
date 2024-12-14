@@ -1,4 +1,4 @@
-package com.dicoding.foundup.ui.myidea
+package com.dicoding.foundup.ui.candidate.listcandidate
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,22 +6,17 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dicoding.foundup.adapter.ListCandidateAdapter
 import com.dicoding.foundup.adapter.MyIdeaAdapter
 import com.dicoding.foundup.databinding.ActivityMyIdeaBinding
-import com.dicoding.foundup.ui.ideDetail.IdeDetailActivity
+import com.dicoding.foundup.ui.candidate.CandidateActivity
 
-class MyIdeaActivity : AppCompatActivity() {
+class ListCandidateActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMyIdeaBinding
-    private val viewModel: MyIdeaViewModel by viewModels()
+    private val viewModel: ListCandidateViewModel by viewModels()
 
-    private val myIdeaAdapter = MyIdeaAdapter { postId ->
-        // Navigate to IdeDetailActivity with the selected postId
-        val intent = Intent(this, IdeDetailActivity::class.java).apply {
-            putExtra("POST_ID", postId)
-        }
-        startActivity(intent)
-    }
+    private lateinit var listCandidateAdapter: ListCandidateAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +25,14 @@ class MyIdeaActivity : AppCompatActivity() {
 
         val postId = intent.getIntExtra("POST_ID", -1)
         viewModel.setPostId(postId)
+
+        listCandidateAdapter = ListCandidateAdapter { myPostItem ->
+            myPostItem?.id?.let { id ->
+                val intent = Intent(this, CandidateActivity::class.java)
+                intent.putExtra("POST_ID", intArrayOf(id))
+                startActivity(intent)
+            }
+        }
 
         bindInit()
         bindView()
@@ -40,7 +43,7 @@ class MyIdeaActivity : AppCompatActivity() {
 
         viewModel.myide.observe(this) { response ->
             if (response != null && response.data != null) {
-                myIdeaAdapter.setData(response.data)
+                listCandidateAdapter.setData(response.data)
             }
         }
 
@@ -51,8 +54,8 @@ class MyIdeaActivity : AppCompatActivity() {
 
     private fun bindView() {
         binding.recyclerView.apply {
-            layoutManager = LinearLayoutManager(this@MyIdeaActivity)
-            adapter = myIdeaAdapter
+            layoutManager = LinearLayoutManager(this@ListCandidateActivity)
+            adapter = listCandidateAdapter
         }
     }
 }

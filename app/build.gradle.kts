@@ -61,4 +61,6 @@ dependencies {
     implementation (libs.retrofit2.converter.gson)
     implementation (libs.glide)
     implementation (libs.logging.interceptor)
+
+    implementation ("androidx.work:work-runtime-ktx:2.8.1")
 }

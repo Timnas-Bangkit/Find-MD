@@ -51,7 +51,7 @@ class CandidateAdapter : RecyclerView.Adapter<CandidateAdapter.MyViewHolder>() {
             binding.apply {
                 // Mengisi data profil
                 tvCandidateName.text = item.user?.userProfile?.name ?: "Unknown User"
-                tvPosition.text
+                tvPosition.text = item.user?.cv?.jobRole ?: "Unknown Position"
                 tvScore.text = "Score: ${item.user?.cv?.score ?: "N/A"}"
                 tvStatus.text = item.status ?: "Pending"
 

@@ -21,13 +21,9 @@ class CandidateActivity : AppCompatActivity() {
         binding = ActivityCandidateBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Menerima dua ID POST_ID dari Intent
+        // Menerima POST_ID dari Intent
         val postIds = intent.getIntArrayExtra("POST_ID")
         postIds?.let {
-            for (id in it) {
-                Log.d("CandidateActivity", "Received Post ID: $id")
-            }
-            // Set Post IDs di ViewModel atau gunakan sesuai kebutuhan
             viewModel.setPostIds(it)
         } ?: run {
             Log.d("CandidateActivity", "No Post IDs received")
@@ -37,6 +33,7 @@ class CandidateActivity : AppCompatActivity() {
         bindView()
         bindObserver()
     }
+
 
     private fun bindInit() {
         viewModel.getCandidate()

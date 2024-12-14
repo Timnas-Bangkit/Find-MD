@@ -12,7 +12,9 @@ import com.dicoding.foundup.databinding.ItemMyIdeaBinding
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class MyIdeaAdapter(private val onItemClick: (Int) -> Unit) : RecyclerView.Adapter<MyIdeaAdapter.ViewHolder>() {
+class ListCandidateAdapter(
+    private val onItemClicked: (MyPostItem?) -> Unit
+) : RecyclerView.Adapter<ListCandidateAdapter.ViewHolder>() {
 
     private val myPostList = mutableListOf<MyPostItem?>()
 
@@ -28,7 +30,7 @@ class MyIdeaAdapter(private val onItemClick: (Int) -> Unit) : RecyclerView.Adapt
             parent,
             false
         )
-        return ViewHolder(binding, onItemClick)
+        return ViewHolder(binding, onItemClicked)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -38,7 +40,10 @@ class MyIdeaAdapter(private val onItemClick: (Int) -> Unit) : RecyclerView.Adapt
 
     override fun getItemCount(): Int = myPostList.size
 
-    class ViewHolder(private val binding: ItemMyIdeaBinding, private val onItemClick: (Int) -> Unit) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(
+        private val binding: ItemMyIdeaBinding,
+        private val onItemClicked: (MyPostItem?) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(myPostItem: MyPostItem?) {
             binding.titleText.text = myPostItem?.title
@@ -63,11 +68,9 @@ class MyIdeaAdapter(private val onItemClick: (Int) -> Unit) : RecyclerView.Adapt
                 .load(myPostItem?.image)
                 .into(binding.eventImage)
 
-            // Set click listener to trigger navigation to IdeDetailActivity
-            itemView.setOnClickListener {
-                myPostItem?.id?.let { postId ->
-                    onItemClick(postId)
-                }
+            // Handle item click
+            binding.root.setOnClickListener {
+                onItemClicked(myPostItem)
             }
         }
     }
