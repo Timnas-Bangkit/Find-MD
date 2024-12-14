@@ -98,7 +98,7 @@ class PostAdapter : RecyclerView.Adapter<PostAdapter.MyViewHolder>(), Filterable
                     val formattedDate = date?.let {
                         val outputFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
                         outputFormat.format(it)
-                    } ?: "Invalid Date"  // Default if parsing fails
+                    } ?: "Invalid Date"
 
                     profileTime.text = formattedDate
                 } ?: run {
@@ -111,7 +111,7 @@ class PostAdapter : RecyclerView.Adapter<PostAdapter.MyViewHolder>(), Filterable
 
                 // Load profile image with Glide
                 Glide.with(itemView.context)
-                    .load(item.user?.userProfile?.profilePic ?: R.drawable.ic_profile_24) // Placeholder if profile picture is empty
+                    .load(item.user?.userProfile?.profilePic ?: R.drawable.ic_profile)
                     .circleCrop()
                     .into(profileIcon)
 

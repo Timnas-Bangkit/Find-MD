@@ -86,31 +86,5 @@
             android:src="@drawable/ic_image_24"
             android:contentDescription="@string/content_description_event_image" />
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="8dp">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_thumb_up_24"
-                android:contentDescription="@string/content_description_like_icon"
-                android:tint="@color/gray"
-                tools:ignore="UseAppTint" />
-
-            <TextView
-                android:id="@+id/likesText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:text="@string/likes_text"
-                android:textSize="14sp"
-                android:textColor="@color/gray" />
-        </LinearLayout>
     </LinearLayout>
-
 </androidx.cardview.widget.CardView>

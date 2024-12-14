@@ -56,7 +56,6 @@ class ProfileFragment : Fragment() {
 
         viewModel.userProfile.observe(viewLifecycleOwner) { userProfile ->
             if (userProfile == null) {
-                dismissProgressDialog()
                 binding.profileName.text = getString(R.string.default_username)
                 binding.profileRole.text = getString(R.string.unknown_role)
                 binding.profileImage.setImageResource(R.drawable.ic_profile)
@@ -65,7 +64,6 @@ class ProfileFragment : Fragment() {
                 isAlertShown = true
                 showAlert("Peringatan", "Anda harus mengunggah CV untuk melanjutkan.")
             } else {
-                dismissProgressDialog()
                 profileUser(userProfile)
             }
         }
@@ -74,20 +72,23 @@ class ProfileFragment : Fragment() {
         viewModel.uploadStatus.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is CustomResult.Success -> {
-                    dismissProgressDialog()
+                    hideProgressBar()
                     showAlert("Sukses", result.data)
                 }
                 is CustomResult.Failure -> {
-                    dismissProgressDialog()
+                    hideProgressBar()
                     showAlert("Error", result.exception.message)
                 }
-                is CustomResult.Loading -> showProgressDialog("Mengunggah CV", "Harap tunggu...")
+                is CustomResult.Loading -> {
+                    showProgressBar()
+                }
                 else -> {
-                    dismissProgressDialog()
+                    hideProgressBar()
                     showAlert("Error", "Status tidak diketahui.")
                 }
             }
         }
+
 
         viewModel.logoutStatus.observe(viewLifecycleOwner) { isLoggedOut ->
             if (isLoggedOut) navigateToLogin()
@@ -206,18 +207,12 @@ class ProfileFragment : Fragment() {
         startActivity(intent)
     }
 
-    private fun showProgressDialog(title: String, message: String) {
-        progressDialog = ProgressDialog(requireContext()).apply {
-            setTitle(title)
-            setMessage(message)
-            setCancelable(false)
-            show()
-        }
+    private fun showProgressBar() {
+        binding.progressBar.visibility = View.VISIBLE
     }
 
-    private fun dismissProgressDialog() {
-        progressDialog?.dismiss()
-        progressDialog = null
+    private fun hideProgressBar() {
+        binding.progressBar.visibility = View.GONE
     }
 
     override fun onDestroyView() {

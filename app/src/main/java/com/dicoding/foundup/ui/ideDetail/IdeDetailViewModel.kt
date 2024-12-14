@@ -47,45 +47,40 @@ class IdeDetailViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun joinTeam(token: String) {
+        _loading.value = true
         viewModelScope.launch {
             try {
                 val response = apiService.joinTeam("Bearer $token", postId.value!!)
-                if (response.error == false) {
-                    _resultJoin.value = response
-                } else {
-                    _resultJoin.value = JoinIdeResponse(true, "Failed to join team")
-                }
+                _resultJoin.value = response
             } catch (e: Exception) {
                 _error.value = "Error joining team: ${e.localizedMessage}"
-            }
-        }
-    }
-
-    fun fetchDetailIde() {
-        _loading.value = true
-
-        getUserToken { token ->
-            if (!token.isNullOrEmpty()) {
-                viewModelScope.launch {
-                    try {
-                        val response = apiService.getDetailIde("Bearer $token", postId.value!!)
-                        if (response.error == false) {
-                            _ideDetail.value = response.data
-                        } else {
-                            _error.value = response.message
-                        }
-                    } catch (e: Exception) {
-                        _error.value = "An error occurred: ${e.localizedMessage}"
-                    } finally {
-                        _loading.value = false
-                    }
-                }
-            } else {
-                _error.value = "Token is null or invalid"
+            } finally {
                 _loading.value = false
             }
         }
     }
+
+
+    fun fetchDetailIde() {
+        _loading.value = true
+        withToken { token ->
+            viewModelScope.launch {
+                try {
+                    val response = apiService.getDetailIde("Bearer $token", postId.value!!)
+                    if (response.error == false) {
+                        _ideDetail.value = response.data
+                    } else {
+                        _error.value = response.message
+                    }
+                } catch (e: Exception) {
+                    _error.value = "An error occurred: ${e.localizedMessage}"
+                } finally {
+                    _loading.value = false
+                }
+            }
+        }
+    }
+
 
     fun checkIfUserJoined(token: String) {
         viewModelScope.launch {
@@ -129,4 +124,64 @@ class IdeDetailViewModel(application: Application) : AndroidViewModel(applicatio
             }
         }
     }
+
+    fun withToken(action: (String) -> Unit) {
+        viewModelScope.launch {
+            val token = userRepository.getUserToken()
+            if (!token.isNullOrEmpty()) {
+                action(token)
+            } else {
+                _error.value = "Failed to retrieve user token"
+            }
+        }
+    }
+
+    fun likePost(token: String) {
+        viewModelScope.launch {
+            _loading.value = true
+            try {
+                val response = apiService.likePost("Bearer $token", postId.value!!)
+                if (response.error == false) {
+                    _ideDetail.value = _ideDetail.value?.copy(
+                        isLiked = true,
+                        likeCount = (_ideDetail.value?.likeCount ?: 0) + 1
+                    )
+                } else {
+                    _error.value = response.mesage
+                }
+            } catch (e: Exception) {
+                _error.value = "Failed to like post: ${e.localizedMessage}"
+            } finally {
+                _loading.value = false
+            }
+        }
+    }
+
+    fun unlikePost(token: String) {
+        viewModelScope.launch {
+            _loading.value = true
+            try {
+                val response = apiService.unlikePost("Bearer $token", postId.value!!)
+                if (response.error == false) {
+                    _ideDetail.value = _ideDetail.value?.copy(
+                        isLiked = false,
+                        likeCount = (_ideDetail.value?.likeCount ?: 1) - 1
+                    )
+                } else {
+                    _error.value = response.mesage
+                }
+            } catch (e: Exception) {
+                _error.value = "Failed to unlike post: ${e.localizedMessage}"
+            } finally {
+                _loading.value = false
+            }
+        }
+    }
+
+
+
+    fun resetError() {
+        _error.value = null
+    }
+
 }

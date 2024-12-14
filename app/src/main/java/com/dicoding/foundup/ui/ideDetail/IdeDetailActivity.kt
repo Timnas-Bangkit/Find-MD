@@ -51,10 +51,13 @@ class IdeDetailActivity : AppCompatActivity() {
         viewModel.ideDetail.observe(this) { detailData ->
             if (detailData != null) {
                 populateDetail(detailData)
-            } else {
-                Toast.makeText(this, "Failed to load detail data", Toast.LENGTH_SHORT).show()
+                binding.likeButton.setImageResource(
+                    if (detailData.isLiked == true) R.drawable.ic_thumb_up_24 else R.drawable.ic_thumb_up_off_alt_24
+                )
+                binding.likeCount.text = detailData.likeCount?.toString() ?: "0"
             }
         }
+
 
         viewModel.loading.observe(this) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
@@ -64,23 +67,23 @@ class IdeDetailActivity : AppCompatActivity() {
         viewModel.error.observe(this) { errorMessage ->
             if (!errorMessage.isNullOrEmpty()) {
                 Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+                viewModel.resetError()
             }
         }
 
         viewModel.userRole.observe(this) { role ->
-            if (role == "owner") {
+            if (role.equals("owner", ignoreCase = true)) {
                 binding.btnJoin.visibility = View.GONE
             } else {
                 binding.btnJoin.visibility = View.VISIBLE
             }
         }
 
+
         viewModel.userHasJoined.observe(this) { hasJoined ->
             if (hasJoined == true) {
-                binding.btnJoin.isEnabled = false
                 binding.btnJoin.text = getString(R.string.already_joined)
             } else {
-                binding.btnJoin.isEnabled = true
                 binding.btnJoin.text = getString(R.string.join)
             }
         }
@@ -95,6 +98,24 @@ class IdeDetailActivity : AppCompatActivity() {
                 }
             }
         }
+
+        binding.likeButton.setOnClickListener {
+            viewModel.getUserToken { token ->
+                val isLiked = viewModel.ideDetail.value?.isLiked ?: false
+                if (!token.isNullOrEmpty()) {
+                    if (isLiked) {
+                        viewModel.unlikePost(token)
+                    } else {
+                        viewModel.likePost(token)
+                    }
+                    // Periksa status bergabung setelah melakukan like/unlike
+                    viewModel.checkIfUserJoined(token)
+                } else {
+                    Toast.makeText(this, "User token is missing", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
 
         viewModel.resultJoin.observe(this) { response ->
             if (response != null) {
@@ -124,10 +145,10 @@ class IdeDetailActivity : AppCompatActivity() {
 
         val founderImageUrl = userProfile?.profilePic
         if (!founderImageUrl.isNullOrEmpty()) {
-            Glide.with(this).load(founderImageUrl).placeholder(R.drawable.ic_profile_24)
+            Glide.with(this).load(founderImageUrl).placeholder(R.drawable.ic_profile)
                 .circleCrop().into(binding.founderImage)
         } else {
-            binding.founderImage.setImageResource(R.drawable.ic_profile_24)
+            binding.founderImage.setImageResource(R.drawable.ic_profile)
         }
 
         val ideaImageUrl = detailData.image

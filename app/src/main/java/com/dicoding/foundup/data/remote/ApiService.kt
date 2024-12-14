@@ -6,18 +6,20 @@ import com.dicoding.foundup.data.response.ApplicationResponse
 import com.dicoding.foundup.data.response.CVProfileResponse
 import com.dicoding.foundup.data.response.CandidateResponse
 import com.dicoding.foundup.data.response.DataRole
-import com.dicoding.foundup.data.response.DetaiIdeData
 import com.dicoding.foundup.data.response.DetaiIdeResponse
 import com.dicoding.foundup.data.response.JoinIdeResponse
+import com.dicoding.foundup.data.response.LikeResponse
 import com.dicoding.foundup.data.response.LoginResponse
 import com.dicoding.foundup.data.response.MyPostResponse
 import com.dicoding.foundup.data.response.ProfileResponse
 import com.dicoding.foundup.data.response.RegisterResponse
 import com.dicoding.foundup.data.response.RoleResponse
+import com.dicoding.foundup.data.response.UnlikeResponse
 import com.dicoding.foundup.data.response.UploadCVResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -46,7 +48,7 @@ interface ApiService {
         @Field("password") password: String
     ): LoginResponse
 
-    // fungsi untuk mengambil data(role) saat login
+    // fungsi untuk mengambil data user saat login
     @GET("api/users/me")
     suspend fun getRole(@Header("Authorization") authHeader: String): ProfileResponse
 
@@ -123,5 +125,18 @@ interface ApiService {
     suspend fun getPost(
         @Header("Authorization") token: String
     ): MyPostResponse
+
+    // fungsi untuk mengirim data like
+    @POST("api/posts/{id}/like")
+    suspend fun likePost(
+        @Header("Authorization") token: String,
+        @Path("id") postId: Int
+    ): LikeResponse
+
+    @DELETE("api/posts/{id}/like")
+    suspend fun unlikePost(
+        @Header("Authorization") token: String,
+        @Path("id") postId: Int
+    ): UnlikeResponse
 
 }
