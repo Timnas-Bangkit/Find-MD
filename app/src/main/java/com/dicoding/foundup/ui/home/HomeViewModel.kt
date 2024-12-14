@@ -38,6 +38,23 @@ class HomeViewModel(private val userRepository: UserRepository) : ViewModel() {
         }
     }
 
+    // percobaan rekomendasi CV
+    fun fetchRecommendedPosts() {
+        _loading.value = true
+        viewModelScope.launch {
+            try {
+                val token = getUserToken() ?: throw IllegalStateException("Token is null or empty")
+                val recommendedPosts = userRepository.getRecommendedPosts(token)
+                _userData.value = recommendedPosts
+                _loading.value = false
+            } catch (e: Exception) {
+                _loading.value = false
+                _error.value = "Gagal memuat postingan rekomendasi: ${e.message}"
+            }
+        }
+    }
+
+
     suspend fun getUserRole(token: String): String? {
         return try {
             val roleResponse = userRepository.getUserRole(token)

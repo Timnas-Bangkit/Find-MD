@@ -24,6 +24,11 @@ class UserRepository(
     private val _user = MutableLiveData<List<DataItem>>()
     val user: LiveData<List<DataItem>> = _user
 
+    // percobaan rekomendasi CV
+    suspend fun getRecommendedPosts(token: String): List<DataItem> {
+        return apiService.getRecommendedPosts("Bearer $token")
+    }
+
     suspend fun registerUser(name: String, email: String, password: String): RegisterResponse {
         return try {
             val response = apiService.registerUser(name, email, password)
