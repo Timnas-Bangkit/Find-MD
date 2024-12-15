@@ -13,6 +13,7 @@ import com.dicoding.foundup.data.response.LikeResponse
 import com.dicoding.foundup.data.response.LoginResponse
 import com.dicoding.foundup.data.response.MyPostResponse
 import com.dicoding.foundup.data.response.ProfileResponse
+import com.dicoding.foundup.data.response.RecomendationResponse
 import com.dicoding.foundup.data.response.RegisterResponse
 import com.dicoding.foundup.data.response.RoleResponse
 import com.dicoding.foundup.data.response.UnlikeResponse
@@ -81,11 +82,11 @@ interface ApiService {
     ): AddIdeResponse
 
 
-    // endpoint percobaan rekomendasi CV
+    // fungsi untuk mendapatkan rekomendasi CV
     @GET("api/posts/recommendation")
     suspend fun getRecommendedPosts(
         @Header("Authorization") token: String
-    ): List<DataItem>
+    ): RecomendationResponse
 
 
     // fungsi untuk mendapatkan detail post (berdasarkan id)
@@ -142,6 +143,7 @@ interface ApiService {
         @Path("id") postId: Int
     ): LikeResponse
 
+    // fungsi untuk menghapus data like
     @DELETE("api/posts/{id}/like")
     suspend fun unlikePost(
         @Header("Authorization") token: String,

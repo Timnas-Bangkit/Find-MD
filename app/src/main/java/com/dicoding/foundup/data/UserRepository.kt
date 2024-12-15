@@ -10,6 +10,7 @@ import com.dicoding.foundup.data.response.DataItem
 import com.dicoding.foundup.data.response.DataRole
 import com.dicoding.foundup.data.response.LoginResponse
 import com.dicoding.foundup.data.response.ProfileResponse
+import com.dicoding.foundup.data.response.RecomendationDataItem
 import com.dicoding.foundup.data.response.RegisterResponse
 import com.dicoding.foundup.data.response.RoleResponse
 import com.dicoding.foundup.data.response.UploadCVResponse
@@ -24,10 +25,14 @@ class UserRepository(
     private val _user = MutableLiveData<List<DataItem>>()
     val user: LiveData<List<DataItem>> = _user
 
-    // percobaan rekomendasi CV
-    suspend fun getRecommendedPosts(token: String): List<DataItem> {
-        return apiService.getRecommendedPosts("Bearer $token")
+    suspend fun getRecommendedPosts(token: String): List<RecomendationDataItem> {
+        val response = apiService.getRecommendedPosts("Bearer $token")
+        if (response.error == true || response.data.isNullOrEmpty()) {
+            throw Exception("Gagal mendapatkan rekomendasi")
+        }
+        return response.data
     }
+
 
     suspend fun registerUser(name: String, email: String, password: String): RegisterResponse {
         return try {

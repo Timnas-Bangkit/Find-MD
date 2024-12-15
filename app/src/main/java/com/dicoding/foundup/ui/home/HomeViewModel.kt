@@ -6,12 +6,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dicoding.foundup.data.UserRepository
 import com.dicoding.foundup.data.response.DataItem
+import com.dicoding.foundup.data.response.RecomendationDataItem
 import kotlinx.coroutines.launch
 
 class HomeViewModel(private val userRepository: UserRepository) : ViewModel() {
 
     private val _userData = MutableLiveData<List<DataItem>>(emptyList())
     val userData: LiveData<List<DataItem>> = _userData
+
+    private val _recomendationData = MutableLiveData<List<RecomendationDataItem>>(emptyList())
+    val recomendationData: LiveData<List<RecomendationDataItem>?> = _recomendationData
+
 
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
@@ -38,21 +43,21 @@ class HomeViewModel(private val userRepository: UserRepository) : ViewModel() {
         }
     }
 
-    // percobaan rekomendasi CV
     fun fetchRecommendedPosts() {
         _loading.value = true
         viewModelScope.launch {
             try {
                 val token = getUserToken() ?: throw IllegalStateException("Token is null or empty")
                 val recommendedPosts = userRepository.getRecommendedPosts(token)
-                _userData.value = recommendedPosts
-                _loading.value = false
+                _recomendationData.value = recommendedPosts
             } catch (e: Exception) {
-                _loading.value = false
                 _error.value = "Gagal memuat postingan rekomendasi: ${e.message}"
+            } finally {
+                _loading.value = false
             }
         }
     }
+
 
 
     suspend fun getUserRole(token: String): String? {

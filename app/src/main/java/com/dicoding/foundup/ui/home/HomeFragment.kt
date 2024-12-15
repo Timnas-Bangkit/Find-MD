@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.foundup.adapter.PostAdapter
+import com.dicoding.foundup.data.response.DataItem
 import com.dicoding.foundup.databinding.FragmentHomeBinding
 import com.dicoding.foundup.di.Injection
 import com.dicoding.foundup.ui.HomeViewModelFactory
@@ -29,7 +30,6 @@ class HomeFragment : Fragment() {
     companion object {
         const val SUCCESS_ADD_IDEA = "success_add_idea"
     }
-
 
     private val homeViewModel: HomeViewModel by viewModels {
         HomeViewModelFactory(Injection.provideRepository(requireContext()))
@@ -55,9 +55,11 @@ class HomeFragment : Fragment() {
         handleAddIdeaSuccess()
         observeUserToken()
 
+        filterByCategory("All")
+
         // percobaan rekomendasi CV
         homeViewModel.userData.observe(viewLifecycleOwner) { userData ->
-                homeViewModel.fetchRecommendedPosts()
+            homeViewModel.fetchRecommendedPosts()
         }
 
 
@@ -109,9 +111,38 @@ class HomeFragment : Fragment() {
         binding.buttonEducation.setOnClickListener { filterByCategory("Education") }
         binding.buttonFinance.setOnClickListener { filterByCategory("Finance") }
         binding.buttonDesign.setOnClickListener { filterByCategory("Design") }
+        binding.buttonRecommendation.setOnClickListener { filterRecommendedPosts() }
     }
 
+    private fun filterRecommendedPosts() {
+        selectedCategory = "Recommendation"
+
+        homeViewModel.fetchRecommendedPosts()
+
+        homeViewModel.recomendationData.observe(viewLifecycleOwner) { recommendedPosts ->
+            val dataItems = recommendedPosts?.map { recomendationItem ->
+                DataItem(
+                    id = recomendationItem.id,
+                    title = recomendationItem.title,
+                    description = recomendationItem.description,
+                    image = recomendationItem.image
+                )
+            }
+            postAdapter.setData(dataItems ?: emptyList())
+        }
+
+
+        updateCategoryButtonState()
+    }
+
+
+
     private fun filterByCategory(category: String) {
+        if (category == "Recommendation") {
+            filterRecommendedPosts()
+            return
+        }
+
         selectedCategory = category
 
         val filteredPosts = homeViewModel.userData.value?.filter { post ->
@@ -122,12 +153,14 @@ class HomeFragment : Fragment() {
         updateCategoryButtonState()
     }
 
+
     private fun updateCategoryButtonState() {
         val buttons = listOf(
             binding.buttonAll,
             binding.buttonEducation,
             binding.buttonFinance,
-            binding.buttonDesign
+            binding.buttonDesign,
+            binding.buttonRecommendation
         )
 
         buttons.forEach { button ->
