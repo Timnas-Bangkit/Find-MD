@@ -8,12 +8,10 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.dicoding.foundup.databinding.ActivityRegisterBinding
-import com.dicoding.foundup.di.Injection
 import com.dicoding.foundup.ui.RegisterViewModelFactory
 import com.dicoding.foundup.ui.akun.login.LoginActivity
 import kotlinx.coroutines.launch

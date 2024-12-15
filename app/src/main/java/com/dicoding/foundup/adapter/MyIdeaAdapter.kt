@@ -1,12 +1,9 @@
 package com.dicoding.foundup.adapter
 
-import android.app.Activity
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.dicoding.foundup.R
 import com.dicoding.foundup.data.response.MyPostItem
 import com.dicoding.foundup.databinding.ItemMyIdeaBinding
 import java.text.SimpleDateFormat

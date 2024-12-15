@@ -5,14 +5,10 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dicoding.foundup.data.UserRepository
 import com.dicoding.foundup.data.remote.ApiConfig
-import com.dicoding.foundup.data.remote.ApiService
-import com.dicoding.foundup.data.response.DataRole
 import com.dicoding.foundup.data.response.LoginResponse
-import com.dicoding.foundup.data.response.RoleResponse
 import kotlinx.coroutines.launch
 
 class LoginViewModel(application: Application, private val userRepository: UserRepository) :

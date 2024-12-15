@@ -7,7 +7,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.foundup.adapter.ListCandidateAdapter
-import com.dicoding.foundup.adapter.MyIdeaAdapter
 import com.dicoding.foundup.databinding.ActivityMyIdeaBinding
 import com.dicoding.foundup.ui.candidate.CandidateActivity
 

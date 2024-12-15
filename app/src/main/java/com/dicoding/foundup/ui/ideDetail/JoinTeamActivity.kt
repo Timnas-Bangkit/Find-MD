@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.dicoding.foundup.R
-import com.dicoding.foundup.ui.home.HomeFragment
 import com.dicoding.foundup.ui.main.MainActivity
 import com.dicoding.foundup.ui.myaplication.MyApplicationActivity
 

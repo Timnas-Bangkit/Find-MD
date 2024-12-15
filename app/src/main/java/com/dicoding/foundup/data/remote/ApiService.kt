@@ -5,7 +5,6 @@ import com.dicoding.foundup.data.response.AllUserResponse
 import com.dicoding.foundup.data.response.ApplicationResponse
 import com.dicoding.foundup.data.response.CVProfileResponse
 import com.dicoding.foundup.data.response.CandidateResponse
-import com.dicoding.foundup.data.response.DataItem
 import com.dicoding.foundup.data.response.DataRole
 import com.dicoding.foundup.data.response.DetaiIdeResponse
 import com.dicoding.foundup.data.response.JoinIdeResponse

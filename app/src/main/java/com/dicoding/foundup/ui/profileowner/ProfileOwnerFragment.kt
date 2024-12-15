@@ -15,7 +15,6 @@ import com.dicoding.foundup.databinding.FragmentProfileOwnerBinding
 import com.dicoding.foundup.di.Injection
 import com.dicoding.foundup.ui.ProfileOwnerViewModelFactory
 import com.dicoding.foundup.ui.akun.login.LoginActivity
-import com.dicoding.foundup.ui.candidate.CandidateActivity
 import com.dicoding.foundup.ui.candidate.listcandidate.ListCandidateActivity
 import com.dicoding.foundup.ui.myidea.MyIdeaActivity
 

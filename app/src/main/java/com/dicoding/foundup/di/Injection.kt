@@ -3,7 +3,6 @@ package com.dicoding.foundup.di
 import android.content.Context
 import com.dicoding.foundup.data.UserRepository
 import com.dicoding.foundup.data.pref.UserPreference
-import com.dicoding.foundup.data.pref.dataStore
 import com.dicoding.foundup.data.remote.ApiConfig
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
